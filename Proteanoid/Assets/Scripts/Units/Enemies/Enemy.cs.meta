@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 28710aaef87482a499c0f6a8b919103b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - hpSlider: {instanceID: 0}
+  - hpText: {instanceID: 0}
+  - intentShaker: {instanceID: 0}
+  - intentRenderer: {instanceID: 0}
+  - intentDamageText: {instanceID: 0}
+  - attackIntentSprite: {fileID: 21300000, guid: 8f33446ada52da24e9793a7d297e9a34, type: 3}
+  - buffIntentSprite: {instanceID: 0}
+  - debuffIntentSprite: {instanceID: 0}
+  - specialIntentSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
