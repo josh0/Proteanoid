@@ -12,19 +12,13 @@ public class CardButton : MonoBehaviour, IPointerClickHandler
     private CardButtonBehaviour behaviour;
 
     [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI descText;
     [SerializeField] private TextMeshProUGUI costText;
 
-    [SerializeField] private Color redCardColor;
-    [SerializeField] private Color greenCardColor;
-    [SerializeField] private Color blueCardColor;
-
-    private Image image;
+    [SerializeField] private List<ActionDescription> actionDescriptions;
 
     private void Awake()
     {
         behaviour = GetComponent<CardButtonBehaviour>();
-        image = GetComponent<Image>();
     }
 
     public void SetTargetTransform(Transform t)
@@ -35,8 +29,7 @@ public class CardButton : MonoBehaviour, IPointerClickHandler
     {
         if (Player.mana >= heldCard.manaCost)
         {
-            if (Player.instance.PlayCard(heldCard))
-                SetHeldCard(null);
+            StartCoroutine(heldCard.OnSelect());
         }
         else
             Debug.Log("Can't play " + heldCard.name + " because you don't have enough mana.");
@@ -46,7 +39,6 @@ public class CardButton : MonoBehaviour, IPointerClickHandler
     {
 
     }
-
     public void SetHeldCard(Card card)
     {
         heldCard = card;
@@ -59,31 +51,23 @@ public class CardButton : MonoBehaviour, IPointerClickHandler
         }
         gameObject.SetActive(true);
         UpdateCardText();
-
-        switch (card.type)
-        {
-            case Card.CardType.red:
-                image.color = redCardColor;
-                break;
-            case Card.CardType.green:
-                image.color = greenCardColor;
-                break;
-            case Card.CardType.blue:
-                image.color = blueCardColor;
-                break;
-        }
     }
 
     public void UpdateCardText()
     {
         nameText.text = heldCard.cardName;
-        descText.text = GetDescriptionText();
+        UpdateDescription();
         costText.text = heldCard.manaCost.ToString();
     }
-
-    private string GetDescriptionText()
+    private void UpdateDescription()
     {
-        return heldCard.cardDescription.Replace("[damage]", heldCard.damage.ToString());
+        for (int descIndex = 0; descIndex < actionDescriptions.Count; descIndex++)
+        {
+            if (heldCard.actions.Count >= descIndex + 1)
+                actionDescriptions[descIndex].SetDescription(heldCard.actions[descIndex]);
+            else
+                actionDescriptions[descIndex].gameObject.SetActive(false);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -24,8 +24,12 @@ public class Weapon : ScriptableObject
 
         Card modifiedCard = Instantiate(baseCard);
         modifiedCard.manaCost = Mathf.Max(modifiedCard.manaCost + manaModifier, 0);
-        modifiedCard.damage = Mathf.Max(modifiedCard.damage + damageModifier, 0);
-        modifiedCard.block = Mathf.Max(blockModifier, 0);
+
+        foreach (UnitAction action in modifiedCard.actions)
+        {
+            action.damageModifier = damageModifier;
+            action.blockModifier = blockModifier;
+        }
 
         return modifiedCard;
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Any action that a unit might perform. Cards are lists of actions.
 /// </summary>
-public abstract class UnitAction
+public abstract class UnitAction : ScriptableObject
 {
     public enum TargetType
     {
@@ -27,6 +27,9 @@ public abstract class UnitAction
     public Sprite icon;
     /// <summary>The main number - How much damage it deals, how many stacks it gives, how much block it deals, etc etc.</summary>
     public int power;
+
+    [HideInInspector] public int damageModifier = 0;
+    [HideInInspector] public int blockModifier = 0;
 
     /// <summary>
     /// What the unit will do when this action is called.

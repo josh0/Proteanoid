@@ -12,9 +12,8 @@ public class Player : Unit
     [SerializeField] private TextMeshProUGUI manaText;
 
     [SerializeField] private CanvasGroup uiCanvasGroup;
-    [SerializeField] private Animator sigilCircleAnimator;
 
-    private Weapon equippedWeapon = ScriptableObject.CreateInstance<Weapon>();
+    private Weapon equippedWeapon;
 
     public List<Card> deck;
     [SerializeField] private List<Card> testCards;
@@ -28,6 +27,8 @@ public class Player : Unit
             instance = this;
         else
             Destroy(this);
+
+        equippedWeapon = ScriptableObject.CreateInstance<Weapon>();
     }
     private void Start()
     {
@@ -76,30 +77,15 @@ public class Player : Unit
     }
 
     /// <summary>
-    /// Plays a card, reducing mana equal to that card's cost.</summary>
-    /// <param name="card"></param>
+    /// Plays a card, reducing mana equal to that card's cost. Should be called AFTER OnSelectCard().</summary>
+    /// <param name="cardToPlay">The selected card.</param>
     /// <returns>Whether or not the card was successfully played.</returns>
     public bool PlayCard(Card cardToPlay)
     {
         Card card = equippedWeapon.GetModifiedCard(cardToPlay);
         AddMana(-card.manaCost);
+        card.OnPlay();
         return true;
-    }
-    private List<Unit> GetTargetsFromActionTargetType(UnitAction.TargetType type)
-    {
-        switch (type)
-        {
-            case UnitAction.TargetType.randomEnemy:
-            case UnitAction.TargetType.enemy:
-            case UnitAction.TargetType.allEnemies:
-                return FightManager.enemies.OfType<Unit>().ToList<Unit>();
-
-            case UnitAction.TargetType.self:
-                return new List<Unit> { this };
-            default:
-                Debug.LogWarning("Unknown Target Type: " + type);
-                return new List<Unit> { };
-        }
     }
 
     public void AddMana(int amount)

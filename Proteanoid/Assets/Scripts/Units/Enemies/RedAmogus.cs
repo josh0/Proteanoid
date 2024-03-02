@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class RedAmogus : Enemy
 {
+    [SerializeField] private List<UnitAction> unitActions;
     protected override void UpdateIntent()
     {
-        intent = new RedAmogusStab(damage);
-        intentIcon.DisplayIntent(intent, GetPredictedDamage());
+        intent = unitActions[Random.Range(0, unitActions.Count)];
+        intentIcon.DisplayIntent(intent);
     }
 }

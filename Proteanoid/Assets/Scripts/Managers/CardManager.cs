@@ -13,6 +13,7 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private Transform discardPileTransform;
     private List<Card> hand = new();
 
+    [SerializeField] private Animator handAnimator;
     private void Start()
     {
         drawPile.AddRange(Player.instance.deck);
@@ -24,6 +25,11 @@ public class CardManager : Singleton<CardManager>
     {
         const int cardsToDraw = 5;
         StartCoroutine(DrawMultipleCardsRoutine(cardsToDraw));
+    }
+
+    public void SetCardsInteractable(bool interactable)
+    {
+        handAnimator.SetBool("isDisplayed", interactable);
     }
 
     //Draws a card a given number of times with a delay between each draw for visual clarity.

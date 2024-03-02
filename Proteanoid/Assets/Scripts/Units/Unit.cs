@@ -7,6 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Any unit in the fight, including the player and enemies.
 /// </summary>
+[RequireComponent(typeof(UnitMovement))]
 public abstract class Unit : MonoBehaviour
 {
     public int hp;
@@ -31,6 +32,7 @@ public abstract class Unit : MonoBehaviour
         hpSlider.maxValue = maxHp;
         hpSlider.value = hp;
         hpText.text = hp.ToString();
+        movement = GetComponent<UnitMovement>();
     }
 
     /// <summary>

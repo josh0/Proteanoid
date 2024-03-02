@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,20 +10,39 @@ public class Card : ScriptableObject
     public List<UnitAction> actions;
 
     public string cardName;
-    public string cardDescription;
-    public Sprite sprite;
-
     public int manaCost;
 
-    /// <summary></summary>
-    /// <param name="targets">The enemy this card should target (Should be null if not targeting an enemy.)</param>
+    private Unit attackTarget;
+
+    /// <summary>Activates all actions on the card. Should be called AFTER OnSelect().</summary>
     public IEnumerator OnPlay()
     {
+        if (attackTarget == null)
+            Debug.LogError("Tried to play an attack, but no target was declared.");
         foreach(UnitAction action in actions)
         {
-            action.OnAct(Player.instance, )
+            yield return action.OnAct(Player.instance, GetTargetsFromActionTargetType(action.targetType));
+        }
+        CardManager.Instance.SetCardsInteractable(true);
+    }
+
+    public IEnumerator OnSelect()
+    {
+        CardManager.Instance.SetCardsInteractable(false);
+        if (IsCardManuallyTargeted()) {
+            yield return TargetSelector.Instance.SelectCardTarget(this);
+        }
+        else
+        {
+
         }
     }
+
+    public void SetAttackTarget(Enemy target)
+    {
+        attackTarget = target;
+    }
+
     /// <returns>Whether or not this card should prompt the player to target an enemy.</returns>
     private bool IsCardManuallyTargeted()
     {
@@ -33,11 +53,26 @@ public class Card : ScriptableObject
         }
         return false;
     }
-
-    /// <summary>Prompts the player to target an enemy.</summary>
-    private IEnumerator GetTarget()
+    private List<Unit> GetTargetsFromActionTargetType(UnitAction.TargetType type)
     {
-        yield return Player.instance.SelectCardTarget(this);
+        switch (type)
+        {
+            case UnitAction.TargetType.enemy:
+                return new List<Unit> { attackTarget };
+
+            case UnitAction.TargetType.randomEnemy:
+                return new List<Unit> { FightManager.enemies[Random.Range(0, FightManager.enemies.Count)] };
+
+            case UnitAction.TargetType.allEnemies:
+                return FightManager.enemies.OfType<Unit>().ToList<Unit>();
+
+            case UnitAction.TargetType.self:
+                return new List<Unit> { Player.instance };
+
+            default:
+                Debug.LogWarning("Unknown Target Type: " + type);
+                return new List<Unit> { };
+        }
     }
 
     /// <summary>
