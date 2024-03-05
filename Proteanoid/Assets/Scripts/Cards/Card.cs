@@ -13,10 +13,12 @@ public class Card : ScriptableObject
     public int manaCost;
 
     private Unit attackTarget;
+    private CardButton cardButton;
 
     /// <summary>Activates all actions on the card. Should be called AFTER OnSelect().</summary>
     public IEnumerator OnPlay()
     {
+        cardButton.SetHeldCard(null);
         if (attackTarget == null)
             Debug.LogError("Tried to play an attack, but no target was declared.");
         foreach(UnitAction action in actions)
@@ -24,7 +26,6 @@ public class Card : ScriptableObject
             yield return action.OnAct(Player.instance, GetTargetsFromActionTargetType(action.targetType));
         }
         CardManager.Instance.SetCardsInteractable(true);
-        yield return Player.instance.movement.MoveToOriginalPos();
     }
 
     public IEnumerator OnSelect()
@@ -34,9 +35,13 @@ public class Card : ScriptableObject
             yield return TargetSelector.Instance.SelectCardTarget(this);
         }
         else
-        {
+            yield return CardPlayArea.Instance.WaitForMouseUp(this); 
+    }
 
-        }
+    public void OnDeselect()
+    {
+        CardManager.Instance.SetCardsInteractable(true);
+
     }
 
     public void SetAttackTarget(Enemy target)
@@ -54,6 +59,12 @@ public class Card : ScriptableObject
         }
         return false;
     }
+
+    public void SetCardButton(CardButton button)
+    {
+        cardButton = button;
+    }
+
     private List<Unit> GetTargetsFromActionTargetType(UnitAction.TargetType type)
     {
         switch (type)

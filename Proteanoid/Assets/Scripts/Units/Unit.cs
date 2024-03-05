@@ -24,14 +24,16 @@ public abstract class Unit : MonoBehaviour
     public event Action OnTakeDamage;
     public event Action OnStartTurn;
 
-    [SerializeField] private Slider hpSlider;
-    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private HPSlider hpSlider;
+
+    private int block;
 
     protected virtual void Awake()
     {
-        hpSlider.maxValue = maxHp;
-        hpSlider.value = hp;
-        hpText.text = hp.ToString();
+        hp = maxHp;
+        hpSlider.SetMaxHPVal(maxHp);
+        hpSlider.SetHPVal(maxHp);
+        hpSlider.SetBlockVal(0);
         movement = GetComponent<UnitMovement>();
     }
 
@@ -57,8 +59,7 @@ public abstract class Unit : MonoBehaviour
         if (procsOnDamageEffects)
             OnTakeDamage?.Invoke();
 
-        hpSlider.value = hp;
-        hpText.text = hp.ToString();
+        hpSlider.SetHPVal(hp);
 
         StartCoroutine(graphicShaker.ShakeForDuration(0.2f));
         StartCoroutine(FlashRed());
@@ -76,6 +77,12 @@ public abstract class Unit : MonoBehaviour
         graphicRenderer.color = new Color(1f,0.5f,0.5f);
         yield return new WaitForSeconds(0.1f);
         graphicRenderer.color = Color.white;
+    }
+
+    public void GainBlock(int amount)
+    {
+        block = Mathf.Min(0, block + amount);
+        hpSlider.SetBlockVal(block);
     }
 
     /// <summary>

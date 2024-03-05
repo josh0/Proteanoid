@@ -21,7 +21,6 @@ public class TargetSelector : Singleton<TargetSelector>
     {
         selectedTarget = null;
         selectPromptAnimator.SetBool("isDisplayed", true);
-        Debug.Log("debug");
         while (selectedTarget == null)
         {
             yield return null;

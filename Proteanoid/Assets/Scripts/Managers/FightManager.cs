@@ -25,12 +25,14 @@ public class FightManager : MonoBehaviour
             OnRoundStart();
             Player.instance.CallOnStartTurn();
             yield return Player.instance.TurnRoutine();
+            StartCoroutine(Player.instance.movement.MoveToOriginalPos());
 
             foreach (Enemy enemy in enemies)
             {
                 yield return new WaitForSeconds(0.4f);
                 enemy.CallOnStartTurn();
                 yield return enemy.TurnRoutine();
+                StartCoroutine(enemy.movement.MoveToOriginalPos());
             }
 
 

@@ -50,6 +50,7 @@ public class CardButton : MonoBehaviour, IPointerClickHandler
             return;
         }
         gameObject.SetActive(true);
+        card.SetCardButton(this);
         UpdateCardText();
     }
 

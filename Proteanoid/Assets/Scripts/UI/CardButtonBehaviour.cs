@@ -38,9 +38,7 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         transform.SetAsLastSibling();
         moveOffset = Vector3.zero;
-
     }
-
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.SetSiblingIndex(originalSiblingIndex);
