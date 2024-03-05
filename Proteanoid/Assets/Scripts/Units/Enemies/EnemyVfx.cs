@@ -9,20 +9,10 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 [RequireComponent(typeof(ShakeMovement))]
-public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
 {
     [SerializeField] private Enemy baseEnemyClass;
     private Button button;
-    private void Awake()
-    {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(OnClick);
-    }
-
-    private void OnClick()
-    {
-        TargetSelector.Instance.SelectTarget(baseEnemyClass);
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -32,5 +22,9 @@ public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        TargetSelector.Instance.SelectTarget(baseEnemyClass);
     }
 }

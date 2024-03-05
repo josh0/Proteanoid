@@ -5,8 +5,7 @@ using UnityEngine.EventSystems;
 
 public class CardPlayArea : Singleton<CardPlayArea>, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool isMouseOverArea;
-    private bool isMouseUp;
+    [SerializeField] private bool isMouseOverArea;
     private void OnMouseUp()
     {
         Debug.Log("Mouse up");
@@ -19,8 +18,6 @@ public class CardPlayArea : Singleton<CardPlayArea>, IPointerEnterHandler, IPoin
     {
         while(true)
         {
-            yield return null;
-
             //On right click, de-select the card and cancel this coroutine.
             if (Input.GetMouseButtonDown(1)) {
                 selectedCard.OnDeselect();
@@ -30,9 +27,10 @@ public class CardPlayArea : Singleton<CardPlayArea>, IPointerEnterHandler, IPoin
             //On mouse up over this area, play the selected card.
             if (isMouseOverArea && Input.GetMouseButtonUp(0))
             {
-                selectedCard.OnPlay();
+                Player.instance.PlayCard(selectedCard);
                 break;
             }
+            yield return null;
         }
     }
 

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CardButtonBehaviour))]
-public class CardButton : MonoBehaviour, IPointerClickHandler
+public class CardButton : MonoBehaviour, IPointerDownHandler
 {
     public Card heldCard;
     private CardButtonBehaviour behaviour;
@@ -71,7 +71,7 @@ public class CardButton : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         OnClick();
     }

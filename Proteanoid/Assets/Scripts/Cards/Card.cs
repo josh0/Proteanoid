@@ -15,12 +15,10 @@ public class Card : ScriptableObject
     private Unit attackTarget;
     private CardButton cardButton;
 
-    /// <summary>Activates all actions on the card. Should be called AFTER OnSelect().</summary>
+    /// <summary>Activates all actions on the card. Should be called AFTER OnSelect(), and should only be called by the Player script.</summary>
     public IEnumerator OnPlay()
     {
         cardButton.SetHeldCard(null);
-        if (attackTarget == null)
-            Debug.LogError("Tried to play an attack, but no target was declared.");
         foreach(UnitAction action in actions)
         {
             yield return action.OnAct(Player.instance, GetTargetsFromActionTargetType(action.targetType));
