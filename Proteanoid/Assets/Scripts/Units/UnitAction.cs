@@ -28,6 +28,8 @@ public abstract class UnitAction : ScriptableObject
     /// <summary>The main number - How much damage it deals, how many stacks it gives, how much block it deals, etc etc.</summary>
     public int power;
 
+    public string actionTooltip;
+
     [HideInInspector] public int damageModifier = 0;
     [HideInInspector] public int blockModifier = 0;
 

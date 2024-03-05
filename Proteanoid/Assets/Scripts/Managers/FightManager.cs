@@ -34,7 +34,7 @@ public class FightManager : MonoBehaviour
             }
 
 
-            OnRoundEnd();
+            OnRoundEnd?.Invoke();
             yield return new WaitForSeconds(0.5f);
         }
     }

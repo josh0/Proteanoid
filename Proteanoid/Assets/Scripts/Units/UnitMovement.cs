@@ -47,7 +47,7 @@ public class UnitMovement : MonoBehaviour
     private IEnumerator LerpToPos(Vector2 start, Vector2 end)
     {
         float timeElapsed = 0;
-        const float movementTime = 0.8f;
+        const float movementTime = 0.5f;
 
         while (timeElapsed < movementTime)
         {

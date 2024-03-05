@@ -259,8 +259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 15
   maxHp: 15
-  graphicShaker: {fileID: 0}
-  graphicRenderer: {fileID: 0}
+  graphicShaker: {fileID: 8173150891731720782}
+  graphicRenderer: {fileID: 3787421053158754033}
   strength: 0
   hpSlider: {fileID: 1517307801683239595}
   hpText: {fileID: 1517307801972766701}
@@ -946,6 +946,7 @@ GameObject:
   - component: {fileID: 3787421053158754033}
   - component: {fileID: 646632041564250709}
   - component: {fileID: 7955990610642236357}
+  - component: {fileID: 8173150891731720782}
   m_Layer: 0
   m_Name: Graphic
   m_TagString: Untagged
@@ -1068,6 +1069,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseEnemyClass: {fileID: 1517307801555671187}
+--- !u!114 &8173150891731720782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4106896273688543588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d850ee31708cd46bef54c353752304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShaking: 0
+  shakeMagnitude: {x: 0.2, y: 0}
+  posOffset: {x: 0, y: 0}
 --- !u!1 &5474115764006247507
 GameObject:
   m_ObjectHideFlags: 0

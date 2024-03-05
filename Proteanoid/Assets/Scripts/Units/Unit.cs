@@ -13,7 +13,7 @@ public abstract class Unit : MonoBehaviour
     public int hp;
     [SerializeField] private int maxHp;
     [SerializeField] private ShakeMovement graphicShaker;
-    [SerializeField] private SpriteRenderer graphicRenderer;
+    [SerializeField] private Image graphicRenderer;
 
     /// <summary>The script controlling this unit's movement.</summary>
     public UnitMovement movement { get; private set; }

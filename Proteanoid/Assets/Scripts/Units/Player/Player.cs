@@ -37,7 +37,6 @@ public class Player : Unit
             AddCardToDeck(card);
         }
     }
-
     public override IEnumerator TurnRoutine()
     {
         uiCanvasGroup.interactable = true;
@@ -84,7 +83,7 @@ public class Player : Unit
     {
         Card card = equippedWeapon.GetModifiedCard(cardToPlay);
         AddMana(-card.manaCost);
-        card.OnPlay();
+        StartCoroutine(card.OnPlay());
         return true;
     }
 

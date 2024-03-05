@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 
 [RequireComponent(typeof(Button))]
+[RequireComponent(typeof(ShakeMovement))]
 public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Enemy baseEnemyClass;

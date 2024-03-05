@@ -295,8 +295,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9d72d0c04c0c54796a760d509e0569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleIncreaseOnHover: 0.3
-  scaleSpeed: 10
+  scaleIncreaseOnHover: 0.1
+  scaleSpeed: 30
 --- !u!114 &-2297018416010364486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 0}
-  moveSpeed: 10
-  downwardOffsetWhenInactive: 1
+  moveSpeed: 40
+  downwardOffsetWhenInactive: 0.5
 --- !u!1 &5939389292107838011
 GameObject:
   m_ObjectHideFlags: 0

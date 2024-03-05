@@ -27,6 +27,7 @@ public class TargetSelector : Singleton<TargetSelector>
             yield return null;
         }
         card.SetAttackTarget(selectedTarget);
+        Player.instance.PlayCard(card);
         selectPromptAnimator.SetBool("isDisplayed", false);
     }
 }

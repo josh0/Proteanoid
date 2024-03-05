@@ -24,6 +24,7 @@ public class Card : ScriptableObject
             yield return action.OnAct(Player.instance, GetTargetsFromActionTargetType(action.targetType));
         }
         CardManager.Instance.SetCardsInteractable(true);
+        yield return Player.instance.movement.MoveToOriginalPos();
     }
 
     public IEnumerator OnSelect()
