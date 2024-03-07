@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 15
-  maxHp: 15
+  maxHp: 35
   graphicShaker: {fileID: 8173150891731720782}
   graphicRenderer: {fileID: 3787421053158754033}
   strength: 0

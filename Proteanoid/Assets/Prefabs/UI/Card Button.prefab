@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 0}
-  moveSpeed: 40
+  moveSpeed: 20
   downwardOffsetWhenInactive: 0.5
 --- !u!1 &5939389292107838011
 GameObject:

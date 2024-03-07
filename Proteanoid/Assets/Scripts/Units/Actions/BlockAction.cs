@@ -9,7 +9,7 @@ public class BlockAction : UnitAction
     {
         foreach (Unit target in targets)
         {
-            target.GainBlock(power);
+            target.AddBlock(power);
             yield return new WaitForSeconds(0.1f);
         }
         yield return null;

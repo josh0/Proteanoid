@@ -9,22 +9,26 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 [RequireComponent(typeof(ShakeMovement))]
-public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    private bool isMouseOverEnemy;
     [SerializeField] private Enemy baseEnemyClass;
     private Button button;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log(baseEnemyClass.enemyName);
+        isMouseOverEnemy = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        
+        isMouseOverEnemy = false;
     }
-    public void OnPointerUp(PointerEventData eventData)
+
+    private void Update()
     {
-        TargetSelector.Instance.SelectTarget(baseEnemyClass);
+        if (isMouseOverEnemy && Input.GetMouseButtonUp(0))
+            TargetSelector.Instance.SelectTarget(baseEnemyClass);
     }
 }

@@ -22,6 +22,7 @@ public class Card : ScriptableObject
         foreach(UnitAction action in actions)
         {
             yield return action.OnAct(Player.instance, GetTargetsFromActionTargetType(action.targetType));
+            yield return new WaitForSeconds(0.1f);
         }
         CardManager.Instance.SetCardsInteractable(true);
     }

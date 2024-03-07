@@ -32,6 +32,17 @@ public class CardManager : Singleton<CardManager>
         handAnimator.SetBool("isDisplayed", interactable);
     }
 
+    public void UpdateCardInteractability()
+    {
+        foreach(CardButton button in handButtons)
+        {
+            if (button.heldCard.manaCost >= Player.mana)
+                button.SetInteractable(false);
+            else
+                button.SetInteractable(true);
+        }
+    }
+
     //Draws a card a given number of times with a delay between each draw for visual clarity.
     private IEnumerator DrawMultipleCardsRoutine(int amount)
     {

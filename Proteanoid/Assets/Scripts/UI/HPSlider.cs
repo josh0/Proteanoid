@@ -20,6 +20,8 @@ public class HPSlider : MonoBehaviour
         blockText.text = val.ToString();
         if (val == 0)
             blockImage.gameObject.SetActive(false);
+        else
+            blockImage.gameObject.SetActive(true);
     }
     public void SetMaxHPVal(int val)
     {

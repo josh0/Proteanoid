@@ -15,6 +15,7 @@ MonoBehaviour:
   targetType: 1
   icon: {fileID: 21300000, guid: 8f33446ada52da24e9793a7d297e9a34, type: 3}
   power: 5
+  actionName: Attack
   actionTooltip: Deal damage to an enemy.
   damageModifier: 0
   blockModifier: 0

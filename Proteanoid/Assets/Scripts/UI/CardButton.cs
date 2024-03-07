@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CardButtonBehaviour))]
+[RequireComponent(typeof(Button))]
 public class CardButton : MonoBehaviour, IPointerDownHandler
 {
     public Card heldCard;
@@ -15,10 +15,12 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
     [SerializeField] private TextMeshProUGUI costText;
 
     [SerializeField] private List<ActionDescription> actionDescriptions;
+    private Button button;
 
     private void Awake()
     {
         behaviour = GetComponent<CardButtonBehaviour>();
+        button = GetComponent<Button>();
     }
 
     public void SetTargetTransform(Transform t)
@@ -33,11 +35,6 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
         }
         else
             Debug.Log("Can't play " + heldCard.name + " because you don't have enough mana.");
-    }
-
-    public void UpdateInteractability()
-    {
-
     }
     public void SetHeldCard(Card card)
     {
@@ -69,6 +66,11 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
             else
                 actionDescriptions[descIndex].gameObject.SetActive(false);
         }
+    }
+
+    public void SetInteractable(bool b)
+    {
+        button.interactable = b;
     }
 
     public void OnPointerDown(PointerEventData eventData)

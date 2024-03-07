@@ -31,10 +31,14 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Awake()
     {
         hp = maxHp;
+        movement = GetComponent<UnitMovement>();
+    }
+
+    protected virtual void Start()
+    {
         hpSlider.SetMaxHPVal(maxHp);
         hpSlider.SetHPVal(maxHp);
         hpSlider.SetBlockVal(0);
-        movement = GetComponent<UnitMovement>();
     }
 
     /// <summary>
@@ -54,15 +58,30 @@ public abstract class Unit : MonoBehaviour
     public int TakeDamage(int amount, bool procsOnDamageEffects)
     {
         int finalDamage = amount;
-        hp -= amount;
 
-        if (procsOnDamageEffects)
-            OnTakeDamage?.Invoke();
+        if (block >= amount)
+        {
+            AddBlock(-amount);
+            amount = 0;
+        }
+        else
+        {
+            amount -= block;
+            AddBlock(-block);
+        }
+
+        if (amount > 0)
+        {
+            hp -= amount;
+
+            if (procsOnDamageEffects)
+                OnTakeDamage?.Invoke();
+
+            StartCoroutine(graphicShaker.ShakeForDuration(0.2f));
+            StartCoroutine(FlashRed());
+        }
 
         hpSlider.SetHPVal(hp);
-
-        StartCoroutine(graphicShaker.ShakeForDuration(0.2f));
-        StartCoroutine(FlashRed());
 
         if (hp <= 0)
             Die();
@@ -79,9 +98,9 @@ public abstract class Unit : MonoBehaviour
         graphicRenderer.color = Color.white;
     }
 
-    public void GainBlock(int amount)
+    public void AddBlock(int amount)
     {
-        block = Mathf.Min(0, block + amount);
+        block = Mathf.Max(0, block + amount);
         hpSlider.SetBlockVal(block);
     }
 

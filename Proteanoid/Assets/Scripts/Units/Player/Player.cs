@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Unit
 {
@@ -30,7 +31,7 @@ public class Player : Unit
 
         equippedWeapon = ScriptableObject.CreateInstance<Weapon>();
     }
-    private void Start()
+    protected override void Start()
     {
         foreach(Card card in testCards)
         {
