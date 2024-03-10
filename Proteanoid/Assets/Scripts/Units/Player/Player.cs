@@ -23,13 +23,13 @@ public class Player : Unit
     public static Player instance;
     protected override void Awake()
     {
-        base.Awake();
         if (instance == null)
             instance = this;
         else
             Destroy(this);
 
         equippedWeapon = ScriptableObject.CreateInstance<Weapon>();
+        base.Awake();
     }
     protected override void Start()
     {
@@ -92,6 +92,7 @@ public class Player : Unit
     {
         mana += amount;
         manaText.text = mana.ToString() + "/" + maxMana;
+        CardManager.Instance.UpdateCardInteractability();
     }
 
     public void RefillMana()

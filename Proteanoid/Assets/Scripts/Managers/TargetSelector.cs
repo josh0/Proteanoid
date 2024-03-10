@@ -24,6 +24,12 @@ public class TargetSelector : Singleton<TargetSelector>
         while (selectedTarget == null)
         {
             yield return null;
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                card.OnDeselect();
+                selectPromptAnimator.SetBool("isDisplayed", false);
+            }
         }
         card.SetAttackTarget(selectedTarget);
         Player.instance.PlayCard(card);

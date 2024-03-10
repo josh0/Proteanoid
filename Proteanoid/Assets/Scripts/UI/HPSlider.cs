@@ -17,6 +17,8 @@ public class HPSlider : MonoBehaviour
     }
     public void SetBlockVal(int val)
     {
+        if (blockImage == null)
+            return;
         blockText.text = val.ToString();
         if (val == 0)
             blockImage.gameObject.SetActive(false);

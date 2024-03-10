@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private Transform discardPileTransform;
     private List<Card> hand = new();
 
-    [SerializeField] private Animator handAnimator;
+    [SerializeField] private CanvasGroup handCanvasGroup;
 
     public CardButton heldCardButton { get; private set; }
     private void Start()
@@ -35,7 +36,7 @@ public class CardManager : Singleton<CardManager>
     /// </summary>
     public void SetCardsInteractable(bool interactable)
     {
-        handAnimator.SetBool("isDisplayed", interactable);
+        handCanvasGroup.interactable = interactable;
         if (interactable)
             SetHeldCardButton(null);
     }
@@ -44,7 +45,7 @@ public class CardManager : Singleton<CardManager>
     {
         foreach(CardButton button in handButtons)
         {
-            if (button.heldCard.manaCost >= Player.mana)
+            if (button.heldCard != null && button.heldCard.manaCost > Player.mana)
                 button.SetInteractable(false);
             else
                 button.SetInteractable(true);

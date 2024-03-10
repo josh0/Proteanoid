@@ -25,6 +25,11 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     private Vector3 targetPos;
     private void Update()
     {
+        UpdatePosition();
+    }
+
+    private void UpdatePosition()
+    {
         if (CardManager.Instance.heldCardButton != baseCardButtonClass)
             targetPos = targetTransform.position + moveOffset;
         else
