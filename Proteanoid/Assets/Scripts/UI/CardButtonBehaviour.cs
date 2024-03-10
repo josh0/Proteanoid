@@ -22,9 +22,13 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
         moveOffset = Vector3.down * downwardOffsetWhenInactive;
         baseCardButtonClass = GetComponent<CardButton>();
     }
+    private Vector3 targetPos;
     private void Update()
     {
-        Vector3 targetPos = targetTransform.position + moveOffset;
+        if (CardManager.Instance.heldCardButton != baseCardButtonClass)
+            targetPos = targetTransform.position + moveOffset;
+        else
+            targetPos = Camera.main.ScreenToWorldPoint(new(Input.mousePosition.x, Input.mousePosition.y, 20));
         transform.position = Vector2.Lerp(transform.position, targetPos, Time.deltaTime * moveSpeed);
     }
 

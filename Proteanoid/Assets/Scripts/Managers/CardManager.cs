@@ -14,6 +14,8 @@ public class CardManager : Singleton<CardManager>
     private List<Card> hand = new();
 
     [SerializeField] private Animator handAnimator;
+
+    public CardButton heldCardButton { get; private set; }
     private void Start()
     {
         drawPile.AddRange(Player.instance.deck);
@@ -27,9 +29,15 @@ public class CardManager : Singleton<CardManager>
         StartCoroutine(DrawMultipleCardsRoutine(cardsToDraw));
     }
 
+    /// <summary>
+    /// Sets the hand's animator's "isDisplayed" to a given bool. <br />
+    /// If the given bool is true, also set the heldCardButton to null.
+    /// </summary>
     public void SetCardsInteractable(bool interactable)
     {
         handAnimator.SetBool("isDisplayed", interactable);
+        if (interactable)
+            SetHeldCardButton(null);
     }
 
     public void UpdateCardInteractability()
@@ -131,6 +139,11 @@ public class CardManager : Singleton<CardManager>
             else
                 handButtons[i].SetHeldCard(null);
         }
+    }
+
+    public void SetHeldCardButton(CardButton b)
+    {
+        heldCardButton = b;
     }
 
     private void ShuffleList<T>(List<T> list)

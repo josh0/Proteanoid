@@ -32,6 +32,7 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
         if (Player.mana >= heldCard.manaCost)
         {
             StartCoroutine(heldCard.OnSelect());
+            CardManager.Instance.SetHeldCardButton(this);
         }
         else
             Debug.Log("Can't play " + heldCard.name + " because you don't have enough mana.");

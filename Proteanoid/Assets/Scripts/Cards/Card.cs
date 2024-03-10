@@ -40,7 +40,7 @@ public class Card : ScriptableObject
     public void OnDeselect()
     {
         CardManager.Instance.SetCardsInteractable(true);
-
+        CardManager.Instance.SetHeldCardButton(null);
     }
 
     public void SetAttackTarget(Enemy target)
