@@ -33,6 +33,7 @@ public class Player : Unit
     }
     protected override void Start()
     {
+        base.Start();
         foreach(Card card in testCards)
         {
             AddCardToDeck(card);
@@ -83,6 +84,8 @@ public class Player : Unit
     public bool PlayCard(Card cardToPlay)
     {
         Card card = equippedWeapon.GetModifiedCard(cardToPlay);
+        if (card.manaCost > Player.mana)
+            return false;
         AddMana(-card.manaCost);
         StartCoroutine(card.OnPlay());
         return true;

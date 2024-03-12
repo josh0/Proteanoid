@@ -53,6 +53,7 @@ public abstract class Enemy : Unit
         }
     }
 
+
     /// <summary>
     /// Changes the enemy's intent. This method is to be used at the start of rounds.
     /// </summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class Tooltip : Singleton<Tooltip>
@@ -16,7 +17,11 @@ public class Tooltip : Singleton<Tooltip>
 
     [SerializeField] private float fadeSpeed;
 
+    [SerializeField] private TextMeshProUGUI labelText;
     [SerializeField] private List<ActionDescription> actionDescriptions;
+    [SerializeField] private List<ActionDescription> statusDescriptions;
+
+    [SerializeField] private RectTransform statusTooltipRect;
 
     private void Awake()
     {
@@ -33,7 +38,7 @@ public class Tooltip : Singleton<Tooltip>
     /// Display the description of each unique action in a given list of actions in the tooltip box. <br />
     /// If more than 5 unique actions are provided, only the first 5 will be displayed.
     /// </summary>
-    public void SetTooltip(Transform sender, List<UnitAction> actionsToDisplay, float xValueOffset)
+    public void SetActionTooltip(Transform sender, List<UnitAction> actionsToDisplay, List<StatusEffect> statusEffectsToDisplay)
     {
         List<UnitAction> actions = actionsToDisplay.Distinct().ToList();
         activeTooltipSender = sender;
@@ -45,7 +50,39 @@ public class Tooltip : Singleton<Tooltip>
                 actionDescriptions[i].SetActive(false);
         }
 
-        SetPosNextToTransform(sender, xValueOffset);
+        //Display status effects, if there are any. Otherwise, disable the status tooltip box.
+        if (statusEffectsToDisplay == null || statusEffectsToDisplay.Count == 0)
+            statusTooltipRect.gameObject.SetActive(false);
+        else
+            SetStatusDescriptions(statusEffectsToDisplay.Distinct().ToList());
+
+        SetPosNextToTransform(sender);
+    }
+
+    private void SetStatusDescriptions(List<StatusEffect> effects)
+    {
+        statusTooltipRect.gameObject.SetActive(true);
+        for (int i = 0; i < statusDescriptions.Count; i++)
+        {
+            if (effects.Count >= i + 1)
+                statusDescriptions[i].SetDescriptionWithTooltip(effects[i]);
+            else
+                statusDescriptions[i].SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Same as SetActionTooltip, but meant for units - Displays actions, a name, and Status effects, if the unit has any status effects.
+    /// </summary>
+    /// <param name="sender">The transform sending this tooltip.</param>
+    /// <param name="actionsToDisplay">The actions that should be displayed.</param>
+    /// <param name="label">The name of the unit sending this tooltip.</param>
+    /// <param name="statusEffectsToDisplay">The status effects to display in the tooltip box - If null, disable the tooltip box.</param>
+    public void SetUnitTooltip(Transform sender, List<UnitAction> actionsToDisplay, string label, List<StatusEffect> statusEffectsToDisplay)
+    {
+        SetActionTooltip(sender, actionsToDisplay, statusEffectsToDisplay);
+        labelText.gameObject.SetActive(true);
+        labelText.text = label;
     }
 
     public void ClearTooltip(Transform sender)
@@ -56,33 +93,48 @@ public class Tooltip : Singleton<Tooltip>
 
     /// <summary>
     /// Sets the tooltip box next to a given transform with a given x offset. <br />
-    /// Should be used AFTER SetTooltip().
+    /// Should be used AFTER SetActionTooltip().
     /// </summary>
     /// <param name="t">The transform the tooltip box should appear next to.</param>
-    /// <param name="xValueOffset">The distance from the transform the tooltip box should appear at on the x value.</param>
-    private void SetPosNextToTransform(Transform t, float xValueOffset)
+    private void SetPosNextToTransform(Transform t)
     {
+        float xValueOffset = 3;
+
         if (t.position.x > 0)
             xValueOffset = Mathf.Abs(xValueOffset) * -1;
         else
             xValueOffset = Mathf.Abs(xValueOffset);
 
         transform.position = t.position + Vector3.right * xValueOffset;
+        statusTooltipRect.localPosition = Vector3.right * statusTooltipRect.rect.width * (xValueOffset / Mathf.Abs(xValueOffset));
         targetAlpha = 1;
-        //PlaceTooltipWithinScreen();
+        StartCoroutine(ClampRectTransformRoutine(rectTransform));
+        StartCoroutine(ClampRectTransformRoutine(statusTooltipRect));
     }
 
-    private void PlaceTooltipWithinScreen()
+    /// <summary>
+    /// Waits one frame, then clamps a given RectTransform to always be entirely visible on-screen.
+    /// </summary>
+    /// <param name="t">The RectTransform to clamp.</param>
+    private IEnumerator ClampRectTransformRoutine(RectTransform t)
     {
-        Vector2 wScreenPos = Camera.main.WorldToScreenPoint(rectTransform.position);
-        Debug.Log("*** Word Screen Position: " + Camera.main.WorldToScreenPoint(rectTransform.position));
+        yield return null;
+        Camera camera = Camera.main;
+        Vector2 bottomLeft = camera.ScreenToWorldPoint(Vector3.zero);
+        Vector2 topRight = camera.ScreenToWorldPoint(new Vector3(
+            camera.pixelWidth, camera.pixelHeight));
 
-        wScreenPos.x = wScreenPos.x + ((rectTransform.rect.width / 2f) - wScreenPos.x);
-        Debug.Log("*** word new Screen pos: " + wScreenPos);
-        Vector3 outV = new Vector3();
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, wScreenPos, Camera.current, out outV);
-        //            Vector2 wWorldPos = Camera.main.ScreenToWorldPoint(wScreenPos);
-        Vector2 wWorldPos = (Vector2)outV;
-        rectTransform.position = wWorldPos;
+        var cameraRect = new Rect(
+            bottomLeft.x,
+            bottomLeft.y,
+            topRight.x - bottomLeft.x,
+            topRight.y - bottomLeft.y);
+
+        Vector2 tSize = t.TransformVector(t.sizeDelta);
+
+        t.position = new Vector3(
+            Mathf.Clamp(t.position.x, cameraRect.xMin + (tSize.x / 2), cameraRect.xMax - (tSize.x / 2)),
+            Mathf.Clamp(t.position.y, cameraRect.yMin + (tSize.y / 2), cameraRect.yMax - (tSize.y / 2)),
+            t.position.z);
     }
 }

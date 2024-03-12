@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,8 +23,8 @@ public abstract class Unit : MonoBehaviour
     ///<summary>The amount of damage added to this unit's attacks.</summary>
     public int strength;
 
-    public event Action OnTakeDamage;
-    public event Action OnStartTurn;
+    /// <summary>The list of status effects that should be displayed in the tooltip box.</summary>
+    [HideInInspector] public List<StatusEffect> statusEffects = new();
 
     [SerializeField] private HPSlider hpSlider;
 
@@ -41,11 +43,17 @@ public abstract class Unit : MonoBehaviour
         hpSlider.SetBlockVal(0);
     }
 
-    /// <summary>
-    /// Call the OnStartTurn() event. That's it.
-    /// </summary>
-    public void CallOnStartTurn() =>
-        OnStartTurn?.Invoke();
+    public void OnStartTurn()
+    {
+        foreach (StatusEffect effect in statusEffects)
+            effect.OnStartTurn(this);
+    }
+
+    public void OnRoundEnd()
+    {
+        foreach (StatusEffect effect in statusEffects)
+            effect.OnRoundEnd(this);
+    }
 
     public abstract IEnumerator TurnRoutine();
 
@@ -75,7 +83,11 @@ public abstract class Unit : MonoBehaviour
             hp -= amount;
 
             if (procsOnDamageEffects)
-                OnTakeDamage?.Invoke();
+            {
+                foreach (StatusEffect effect in statusEffects)
+                    effect.OnTakeDamage(this);
+            }
+                
 
             StartCoroutine(graphicShaker.ShakeForDuration(0.2f));
             StartCoroutine(FlashRed());
@@ -109,15 +121,27 @@ public abstract class Unit : MonoBehaviour
     /// </summary>
     /// <typeparam name="T">Any status effect (eg CutEffect).</typeparam>
     /// <param name="stacks">The amount of stacks to add to the effect.</param>
-    public void AddEffect<T>(int stacks) where T : StatusEffect
+    public void AddEffect(StatusEffect effect)
     {
-        if (TryGetComponent<StatusEffect>(out StatusEffect effect))
-            effect.stacks += stacks;
-        else
+        foreach (StatusEffect existingEffect in statusEffects)
         {
-            StatusEffect newEffect = gameObject.AddComponent<T>();
-            newEffect.stacks = stacks;
-            newEffect.SetAffectedUnit(this);
+            if (existingEffect.GetType() == effect.GetType())
+            {
+                existingEffect.stacks += effect.stacks;
+                return;
+            }
         }
+        statusEffects.Add(effect);
+    }
+
+    public void RemoveEffect(StatusEffect effect)
+    {
+        statusEffects.Remove(effect);
+        UpdateEffectDisplays();
+    }
+
+    private void UpdateEffectDisplays()
+    {
+
     }
 }

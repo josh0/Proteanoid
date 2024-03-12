@@ -8,7 +8,6 @@ public class FightManager : MonoBehaviour
     public static List<Enemy> enemies = new();
 
     public static event Action OnRoundStart;
-    public static event Action OnRoundEnd;
 
     private void Start()
     {
@@ -23,20 +22,22 @@ public class FightManager : MonoBehaviour
         while(enemies.Count > 0)
         {
             OnRoundStart();
-            Player.instance.CallOnStartTurn();
+            Player.instance.OnStartTurn();
             yield return Player.instance.TurnRoutine();
             StartCoroutine(Player.instance.movement.MoveToOriginalPos());
 
             foreach (Enemy enemy in enemies)
             {
                 yield return new WaitForSeconds(0.4f);
-                enemy.CallOnStartTurn();
+                enemy.OnStartTurn();
                 yield return enemy.TurnRoutine();
                 StartCoroutine(enemy.movement.MoveToOriginalPos());
             }
 
+            foreach(Enemy enemy in enemies)
+                enemy.OnRoundEnd();
+            Player.instance.OnRoundEnd();
 
-            OnRoundEnd?.Invoke();
             yield return new WaitForSeconds(0.5f);
         }
     }

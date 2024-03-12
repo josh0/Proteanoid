@@ -37,6 +37,7 @@ public class CardManager : Singleton<CardManager>
     public void SetCardsInteractable(bool interactable)
     {
         handCanvasGroup.interactable = interactable;
+        handCanvasGroup.blocksRaycasts = interactable;
         if (interactable)
             SetHeldCardButton(null);
     }

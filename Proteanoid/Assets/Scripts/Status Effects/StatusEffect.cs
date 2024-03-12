@@ -5,33 +5,13 @@ using UnityEngine;
 /// <summary>
 /// A class to be added to a unit, and to be activated at various points in a round.
 /// </summary>
-public abstract class StatusEffect : MonoBehaviour
+public abstract class StatusEffect : ScriptableObject
 {
-    protected Unit affectedUnit;
     public int stacks;
 
-    public void SetAffectedUnit(Unit unit)
-    {
-        affectedUnit = unit;
-        affectedUnit.OnTakeDamage += OnTakeDamage;
-        affectedUnit.OnStartTurn += OnStartTurn;
-    }
-
-    protected virtual void OnEnable()
-    {
-        FightManager.OnRoundEnd += OnRoundEnd;
-        FightManager.OnRoundStart += OnRoundStart;
-    }
-
-    protected virtual void OnDisable()
-    {
-        if (affectedUnit == null)
-            return;
-        FightManager.OnRoundStart -= OnRoundStart;
-        FightManager.OnRoundEnd -= OnRoundEnd;
-        affectedUnit.OnTakeDamage -= OnTakeDamage;
-        affectedUnit.OnStartTurn -= OnStartTurn;
-    }
+    public Sprite icon;
+    public string effectName;
+    public string description;
 
     /// <summary>
     /// Removes a given number of stacks. If stacks are 0 or less, remove this status effect.
@@ -43,8 +23,7 @@ public abstract class StatusEffect : MonoBehaviour
         if (amount <= 0) Destroy(this);
     }
 
-    protected virtual void OnRoundStart() { }
-    protected virtual void OnRoundEnd() { }
-    protected virtual void OnTakeDamage() { }
-    protected virtual void OnStartTurn() { }
+    public virtual void OnRoundEnd(Unit affectedUnit) { }
+    public virtual void OnTakeDamage(Unit affectedUnit) { }
+    public virtual void OnStartTurn(Unit affectedUnit) { }
 }

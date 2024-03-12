@@ -74,8 +74,10 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
         button.interactable = b;
     }
 
+    //This can't be done through button.onClick because it needs to activate when the mouse button goes down, not when it goes down and back up again.
     public void OnPointerDown(PointerEventData eventData)
     {
-        OnClick();
+        if (button.interactable)
+            OnClick();
     }
 }

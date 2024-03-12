@@ -49,8 +49,23 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         transform.SetAsLastSibling();
-        Tooltip.Instance.SetTooltip(transform, baseCardButtonClass.heldCard.actions, 3);
+        Tooltip.Instance.SetActionTooltip(transform, baseCardButtonClass.heldCard.actions, GetStatusEffectsToDisplay());
         moveOffset = Vector3.zero;
+    }
+
+    /// <returns>All effects applied by all actions in the held card. <br />
+    /// If there are no applied effects, instead returns null</returns>
+
+    private List<StatusEffect> GetStatusEffectsToDisplay()
+    {
+        List<StatusEffect> totalEffects = new();
+        foreach(UnitAction action in baseCardButtonClass.heldCard.actions)
+        {
+            totalEffects.AddRange(action.appliedEffects);
+        }
+        if (totalEffects.Count > 0)
+            return totalEffects;
+        else return null;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
