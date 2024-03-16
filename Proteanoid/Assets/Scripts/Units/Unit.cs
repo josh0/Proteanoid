@@ -43,15 +43,17 @@ public abstract class Unit : MonoBehaviour
         hpSlider.SetBlockVal(0);
     }
 
+    //Both of these next methods make a copy of the statusEffect list to avoid the collection modified error.
+
     public void OnStartTurn()
     {
-        foreach (StatusEffect effect in statusEffects)
+        foreach (StatusEffect effect in new List<StatusEffect>(statusEffects))
             effect.OnStartTurn(this);
     }
 
     public void OnRoundEnd()
     {
-        foreach (StatusEffect effect in statusEffects)
+        foreach (StatusEffect effect in new List<StatusEffect>(statusEffects))
             effect.OnRoundEnd(this);
     }
 
@@ -65,6 +67,8 @@ public abstract class Unit : MonoBehaviour
     /// <returns>The amount of unblocked damage dealt.</returns>
     public int TakeDamage(int amount, bool procsOnDamageEffects)
     {
+        if (gameObject == null)
+            return 0;
         int finalDamage = amount;
 
         if (block >= amount)
@@ -84,7 +88,8 @@ public abstract class Unit : MonoBehaviour
 
             if (procsOnDamageEffects)
             {
-                foreach (StatusEffect effect in statusEffects)
+                //Make a copy of the list to avoid the collection modified error
+                foreach (StatusEffect effect in new List<StatusEffect>(statusEffects))
                     effect.OnTakeDamage(this);
             }
                 
@@ -119,29 +124,46 @@ public abstract class Unit : MonoBehaviour
     /// <summary>
     /// Adds any status effect script to the unit, or, if it already has that effect, increase the effect's stacks.
     /// </summary>
-    /// <typeparam name="T">Any status effect (eg CutEffect).</typeparam>
-    /// <param name="stacks">The amount of stacks to add to the effect.</param>
-    public void AddEffect(StatusEffect effect)
+    /// <param name="effect">The effect to add</param>
+    public void AddEffect(StatusEffect effect, int stacks)
     {
         foreach (StatusEffect existingEffect in statusEffects)
         {
             if (existingEffect.GetType() == effect.GetType())
             {
-                existingEffect.stacks += effect.stacks;
+                existingEffect.AddStacks(stacks);
+                hpSlider.SetStatusEffectDescriptions(statusEffects);
                 return;
             }
         }
-        statusEffects.Add(effect);
+        StatusEffect newEffect = ScriptableObject.Instantiate(effect);
+        newEffect.AddStacks(stacks);
+        statusEffects.Add(newEffect);
+        
+        hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 
+    /// <summary>Removes a given type of effect.</summary>
+    /// <typeparam name="T">The type of effect to remove.</typeparam>
+    public void RemoveEffect<T>() where T : StatusEffect =>
+        RemoveEffect(statusEffects.OfType<T>().First());
+
+    /// <summary>Removes a given effect and updates the HP Slider effect display.</summary>
+    /// <param name="effect">The effect to remove</param>
     public void RemoveEffect(StatusEffect effect)
     {
         statusEffects.Remove(effect);
-        UpdateEffectDisplays();
+        hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 
-    private void UpdateEffectDisplays()
+    public void RemoveEffectStacks<T>(int stacks) where T : StatusEffect
     {
-
+        StatusEffect effect = statusEffects.OfType<T>()?.First();
+        if (effect == null)
+            return;
+        effect.AddStacks(-stacks);
+        if (effect.stacks <= 0)
+            RemoveEffect(effect);
+        hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 }

@@ -12,6 +12,9 @@ public class ActionDescription : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI nameText;
 
+    [SerializeField] private Image appliedEffectImg;
+    [SerializeField] private TextMeshProUGUI appliedEffectStacksText;
+
     /// <summary>
     /// Set the gameObject to active, set the description icon to the given action's icon, and set the power text to the action's power.
     /// </summary>
@@ -21,6 +24,18 @@ public class ActionDescription : MonoBehaviour
         actionImage.sprite = action.icon;
         if (actionPowerText != null)
             actionPowerText.text = action.power.ToString();
+
+        if (action.appliedEffect != null && appliedEffectImg != null)
+        {
+            appliedEffectImg.gameObject.SetActive(true);
+            appliedEffectStacksText.gameObject.SetActive(true);
+            appliedEffectImg.sprite = action.appliedEffect.icon;
+            appliedEffectStacksText.text = action.appliedEffectStacks.ToString();
+        } else if (appliedEffectImg != null)
+        {
+            appliedEffectImg.gameObject.SetActive(false);
+            appliedEffectStacksText.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -62,7 +77,7 @@ public class ActionDescription : MonoBehaviour
             return;
         }
         descriptionText.text = effect.description;
-        nameText.text = effect.name;
+        nameText.text = effect.effectName;
     }
 
     public void SetActive(bool a)

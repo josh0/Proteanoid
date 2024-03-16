@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class CardButton : MonoBehaviour, IPointerDownHandler
 {
     public Card heldCard;
-    private CardButtonBehaviour behaviour;
+    public CardButtonBehaviour behaviour { get; private set; }
 
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
@@ -31,7 +31,7 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
     {
         if (Player.mana >= heldCard.manaCost)
         {
-            StartCoroutine(heldCard.OnSelect());
+            StartCoroutine(heldCard.OnSelect(behaviour));
             CardManager.Instance.SetHeldCardButton(this);
         }
         else
@@ -43,7 +43,7 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
 
         if (card == null)
         {
-            behaviour.DisableTargetTransform();
+            behaviour.SetTargetTransformActive(false);
             gameObject.SetActive(false);
             return;
         }

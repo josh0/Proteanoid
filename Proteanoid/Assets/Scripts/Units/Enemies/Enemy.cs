@@ -32,7 +32,8 @@ public abstract class Enemy : Unit
 
     public override IEnumerator TurnRoutine()
     {
-        yield return intent.OnAct(this, GetTargetsFromActionTargetType(intent.targetType)); 
+        if (hp > 0)
+            yield return intent.OnAct(this, GetTargetsFromActionTargetType(intent.targetType)); 
     }
     /// <param name="type">The targetType of the action</param>
     /// <returns></returns>
@@ -73,6 +74,8 @@ public abstract class Enemy : Unit
 
     protected override void Die()
     {
+        movement.StopAllCoroutines();
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 }

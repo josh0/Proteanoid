@@ -22,7 +22,7 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
         moveOffset = Vector3.down * downwardOffsetWhenInactive;
         baseCardButtonClass = GetComponent<CardButton>();
     }
-    private Vector3 targetPos;
+    public Vector3 targetPos;
     private void Update()
     {
         UpdatePosition();
@@ -32,15 +32,13 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (CardManager.Instance.heldCardButton != baseCardButtonClass)
             targetPos = targetTransform.position + moveOffset;
-        else
-            targetPos = Camera.main.ScreenToWorldPoint(new(Input.mousePosition.x, Input.mousePosition.y, 20));
         transform.position = Vector2.Lerp(transform.position, targetPos, Time.deltaTime * moveSpeed);
     }
 
-    public void DisableTargetTransform()
+    public void SetTargetTransformActive(bool active)
     {
         if (targetTransform != null)
-            targetTransform.gameObject.SetActive(false);
+            targetTransform.gameObject.SetActive(active);
     }
 
     public void SetTargetTransform(Transform t) =>
@@ -61,7 +59,8 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
         List<StatusEffect> totalEffects = new();
         foreach(UnitAction action in baseCardButtonClass.heldCard.actions)
         {
-            totalEffects.AddRange(action.appliedEffects);
+            if (action.appliedEffect != null)
+                totalEffects.Add(action.appliedEffect);
         }
         if (totalEffects.Count > 0)
             return totalEffects;

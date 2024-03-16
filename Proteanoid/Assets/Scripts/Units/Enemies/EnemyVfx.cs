@@ -18,7 +18,6 @@ public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(baseEnemyClass.enemyName);
         Tooltip.Instance.SetUnitTooltip(transform, new List<UnitAction> { baseEnemyClass.intent }, baseEnemyClass.enemyName, baseEnemyClass.statusEffects);
         isMouseOverEnemy = true;
     }
@@ -31,6 +30,7 @@ public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void Update()
     {
+        //This is checked manually instead of through events in case of clicking and dragging.
         if (isMouseOverEnemy && Input.GetMouseButtonUp(0))
             TargetSelector.Instance.SelectTarget(baseEnemyClass);
     }

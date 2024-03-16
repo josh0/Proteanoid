@@ -29,8 +29,10 @@ public abstract class UnitAction : ScriptableObject
     /// <summary>The main number - How much damage it deals, how many stacks it gives, how much block it deals, etc etc.</summary>
     public int power;
 
-    /// <summary>The effects applied by this action and the amount of stacks to apply.</summary>
-    public List<StatusEffect> appliedEffects;
+    /// <summary>The effect applied by this action.</summary>
+    public StatusEffect appliedEffect;
+    /// <summary>The amount of stacks the appliedEffect should apply.</summary>
+    public int appliedEffectStacks;
 
     public string actionName;
     public string actionTooltip;
@@ -38,15 +40,15 @@ public abstract class UnitAction : ScriptableObject
     [HideInInspector] public int damageModifier = 0;
     [HideInInspector] public int blockModifier = 0;
 
-    public List<StatusEffect> GetAppliedEffects()
-    {
-        Debug.Log("Please don't forget to write this");
-        return null;
-    }
-
     /// <summary>
     /// What the unit will do when this action is called.
     /// </summary>
     /// <param name="targets">The target(s) who this action will affect.</param>
     public abstract IEnumerator OnAct(Unit actor, List<Unit> targets);
+
+    protected void ApplyEffectToTarget(Unit target)
+    {
+        if (appliedEffect != null && appliedEffectStacks != 0)
+        target.AddEffect(appliedEffect, appliedEffectStacks);
+    }
 }

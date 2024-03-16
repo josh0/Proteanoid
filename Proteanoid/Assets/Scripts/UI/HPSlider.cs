@@ -11,6 +11,8 @@ public class HPSlider : MonoBehaviour
     [SerializeField] private TextMeshProUGUI blockText;
     [SerializeField] private Image blockImage;
     private Slider slider;
+
+    [SerializeField] private List<ActionDescription> effectDescriptions;
     private void Awake()
     {
         slider = GetComponent<Slider>();
@@ -33,5 +35,16 @@ public class HPSlider : MonoBehaviour
     {
         hpText.text = val.ToString();
         slider.value = val;
+    }
+
+    public void SetStatusEffectDescriptions(List<StatusEffect> effects)
+    {
+        for (int descIndex = 0; descIndex < effectDescriptions.Count; descIndex++)
+        {
+            if (effects.Count >= descIndex + 1)
+                effectDescriptions[descIndex].SetDescription(effects[descIndex]);
+            else
+                effectDescriptions[descIndex].gameObject.SetActive(false);
+        }
     }
 }

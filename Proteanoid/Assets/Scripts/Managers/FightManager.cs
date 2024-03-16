@@ -26,12 +26,16 @@ public class FightManager : MonoBehaviour
             yield return Player.instance.TurnRoutine();
             StartCoroutine(Player.instance.movement.MoveToOriginalPos());
 
-            foreach (Enemy enemy in enemies)
+            foreach (Enemy enemy in new List<Enemy>(enemies))
             {
                 yield return new WaitForSeconds(0.4f);
                 enemy.OnStartTurn();
-                yield return enemy.TurnRoutine();
-                StartCoroutine(enemy.movement.MoveToOriginalPos());
+                yield return new WaitForSeconds(0.1f);
+                if (enemy != null)
+                {
+                    yield return enemy.TurnRoutine();
+                    StartCoroutine(enemy.movement.MoveToOriginalPos());
+                }
             }
 
             foreach(Enemy enemy in enemies)

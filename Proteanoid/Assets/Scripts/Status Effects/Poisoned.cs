@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class Poisoned : StatusEffect
 {
     public override void OnStartTurn(Unit affectedUnit)
     {
-        affectedUnit.TakeDamage(1, true);
-        RemoveStacks(1);
+        affectedUnit.TakeDamage(stacks, true);
+        affectedUnit.RemoveEffectStacks<Poisoned>(1);
     }
 }

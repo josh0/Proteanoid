@@ -27,20 +27,22 @@ public class Card : ScriptableObject
         CardManager.Instance.SetCardsInteractable(true);
     }
 
-    public IEnumerator OnSelect()
+    public IEnumerator OnSelect(CardButtonBehaviour button)
     {
         CardManager.Instance.SetCardsInteractable(false);
+        button.SetTargetTransformActive(false);
         if (IsCardManuallyTargeted()) {
-            yield return TargetSelector.Instance.SelectCardTarget(this);
+            yield return TargetSelector.Instance.SelectCardTarget(this, button);
         }
         else
-            yield return CardPlayArea.Instance.WaitForMouseUp(this); 
+            yield return CardPlayArea.Instance.WaitForMouseUp(this, button); 
     }
 
     public void OnDeselect()
     {
         CardManager.Instance.SetCardsInteractable(true);
         CardManager.Instance.SetHeldCardButton(null);
+        cardButton.behaviour.SetTargetTransformActive(true);
     }
 
     public void SetAttackTarget(Enemy target)

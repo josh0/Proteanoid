@@ -9,6 +9,10 @@ public class AttackAction : UnitAction
     {
         yield return actor.movement.MoveToAggroPos();
         foreach (Unit target in targets)
-            target.TakeDamage(power + damageModifier, true);
+            if (target != null)
+            {
+                target.TakeDamage(power + damageModifier, true);
+                ApplyEffectToTarget(target);
+            }
     }
 }
