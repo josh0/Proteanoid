@@ -15,6 +15,11 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
     [SerializeField] private TextMeshProUGUI costText;
 
     [SerializeField] private List<ActionDescription> actionDescriptions;
+    [SerializeField] private Image retainIcon;
+    [SerializeField] private Image innateIcon;
+    [SerializeField] private Image exhaustIcon;
+    [SerializeField] private Image fleetingIcon;
+
     private Button button;
 
     private void Awake()
@@ -67,6 +72,16 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
             else
                 actionDescriptions[descIndex].gameObject.SetActive(false);
         }
+
+        UpdateKeywordIcons();
+    }
+
+    private void UpdateKeywordIcons()
+    {
+        retainIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.retain));
+        innateIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.innate));
+        exhaustIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.exhaust));
+        fleetingIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.fleeting));
     }
 
     public void SetInteractable(bool b)

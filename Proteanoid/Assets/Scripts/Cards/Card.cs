@@ -20,6 +20,7 @@ public class Card : ScriptableObject
         retain,
         innate,
         exhaust,
+        fleeting
     }
 
     public List<Keywords> keywords;
