@@ -12,11 +12,13 @@ using UnityEngine.UIElements;
 public abstract class Enemy : Unit
 {
     ///<summary>The script that updates this enemy's intent SpriteRenderer and text.</summary>
-    [SerializeField] protected EnemyIntentIcon intentIcon;
+    [SerializeField] protected ActionDescription intentDesc;
     public string enemyName;
 
     /// <summary>The action this enemy will take at the start of its turn.</summary>
     public UnitAction intent { get; protected set; }
+
+    public EnemyRewards rewards;
 
     protected virtual void OnEnable()
     {

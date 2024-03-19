@@ -8,6 +8,7 @@ public class FightManager : MonoBehaviour
     public static List<Enemy> enemies = new();
 
     public static event Action OnRoundStart;
+    public static event Action OnFightStart;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class FightManager : MonoBehaviour
     /// </summary>
     private IEnumerator TurnCycleRoutine()
     {
+        OnFightStart?.Invoke();
         while(enemies.Count > 0)
         {
             OnRoundStart();

@@ -24,6 +24,23 @@ public class CardManager : Singleton<CardManager>
         UpdateHandButtons();
     }
 
+    private void OnEnable()
+    {
+        FightManager.OnFightStart += DrawInnateCards;
+    }
+
+    private void OnDisable()
+    {
+        FightManager.OnFightStart -= DrawInnateCards;
+    }
+
+    private void DrawInnateCards()
+    {
+        foreach (Card card in new List<Card>(drawPile))
+            if (card.keywords.Contains(Card.Keywords.innate))
+                DrawCard(card);
+    }
+
     public void DrawNewHand()
     {
         const int cardsToDraw = 5;
@@ -65,8 +82,9 @@ public class CardManager : Singleton<CardManager>
 
     public void DiscardHand()
     {
-        for(int i=hand.Count-1; i >= 0; i--)
-            DiscardCard(hand[i]);
+        for (int i = hand.Count - 1; i >= 0; i--)
+            if (!hand[i].keywords.Contains(Card.Keywords.retain))
+                DiscardCard(hand[i]);
     }
 
     public void DrawCard()
@@ -80,10 +98,15 @@ public class CardManager : Singleton<CardManager>
             return;
         }
 
-        if (SetAvailableHandButtonAs(drawPile[^1]))
+        DrawCard(drawPile[^1]);
+    }
+
+    public void DrawCard(Card card)
+    {
+        if (SetAvailableHandButtonAs(card))
         {
-            hand.Add(drawPile[^1]);
-            drawPile.Remove(drawPile[^1]);
+            hand.Add(card);
+            drawPile.Remove(card);
         }
         else
             Debug.Log("There is no room in your hand.");

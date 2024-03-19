@@ -15,6 +15,15 @@ public class Card : ScriptableObject
     private Unit attackTarget;
     private CardButton cardButton;
 
+    public enum Keywords
+    {
+        retain,
+        innate,
+        exhaust,
+    }
+
+    public List<Keywords> keywords;
+
     /// <summary>Activates all actions on the card. Should be called AFTER OnSelect(), and should only be called by the Player script.</summary>
     public IEnumerator OnPlay()
     {

@@ -8,6 +8,6 @@ public class RedAmogus : Enemy
     protected override void UpdateIntent()
     {
         intent = unitActions[Random.Range(0, unitActions.Count)];
-        intentIcon.DisplayIntent(intent);
+        intentDesc.SetDescription(intent);
     }
 }
