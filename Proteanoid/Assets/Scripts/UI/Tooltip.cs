@@ -56,6 +56,8 @@ public class Tooltip : Singleton<Tooltip>
         else
             SetStatusDescriptions(statusEffectsToDisplay.Distinct().ToList());
 
+        labelText.gameObject.SetActive(false);
+
         SetPosNextToTransform(sender);
     }
 
