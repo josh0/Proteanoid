@@ -8,11 +8,11 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private List<CardButton> handButtons;
     [SerializeField] private List<Transform> handButtonTargets;
 
-    private List<Card> drawPile = new();
+    [SerializeField] private List<Card> drawPile = new();
     [SerializeField] private Transform drawPileTransform;
-    private List<Card> discardPile = new();
+    [SerializeField] private List<Card> discardPile = new();
     [SerializeField] private Transform discardPileTransform;
-    private List<Card> hand = new();
+    [SerializeField] private List<Card> hand = new();
 
     [SerializeField] private CanvasGroup handCanvasGroup;
 
@@ -21,7 +21,8 @@ public class CardManager : Singleton<CardManager>
     {
         drawPile.AddRange(Player.instance.deck);
         ShuffleList(drawPile);
-        UpdateHandButtons();
+        UpdateHandButtonTargets();
+        SetNullCardsInactive();
     }
 
     private void OnEnable()
@@ -32,6 +33,14 @@ public class CardManager : Singleton<CardManager>
     private void OnDisable()
     {
         FightManager.OnFightStart -= DrawInnateCards;
+    }
+
+    private void UpdateHandButtonTargets()
+    {
+        for(int i=0; i<handButtons.Count; i++)
+        {
+            handButtons[i].SetTargetTransform(handButtonTargets[i]);
+        }
     }
 
     private void DrawInnateCards()
@@ -110,8 +119,16 @@ public class CardManager : Singleton<CardManager>
         }
         else
             Debug.Log("There is no room in your hand.");
-
-        UpdateHandButtons();
+    }
+    
+    private void SetNullCardsInactive()
+    {
+        foreach (CardButton button in handButtons)
+            if (button.heldCard == null)
+            {
+                button.behaviour.SetTargetTransformActive(false);
+                button.gameObject.SetActive(false);
+            }
     }
 
     public void AddCardToDiscardPile(Card card)
@@ -130,7 +147,7 @@ public class CardManager : Singleton<CardManager>
                 button.SetHeldCard(card);
 
                 button.transform.position = drawPileTransform.position;
-                button.SetTargetTransform(handButtonTargets[i].transform);
+                button.behaviour.ResetSiblingIndex();
 
                 handButtonTargets[i].gameObject.SetActive(true);
                 return true;
@@ -140,12 +157,36 @@ public class CardManager : Singleton<CardManager>
         return false;
     }
 
+    /// <summary>
+    /// Removes a card from the player's hand and adds it to the discard pile.
+    /// </summary>
+    /// <param name="card">The card to be discarded</param>
     public void DiscardCard(Card card)
     {
-        hand.Remove(card);
+        RemoveCardFromHand(card);
         discardPile.Add(card);
-        
-        UpdateHandButtons();
+    }
+
+    /// <summary>
+    /// Removes a card from the player's hand (Will stay in the player's deck.)
+    /// </summary>
+    /// <param name="card">The card to exhaust.</param>
+    public void ExhaustCard(Card card)
+    {
+        RemoveCardFromHand(card);
+    }
+
+    private void RemoveCardFromHand(Card card)
+    {
+        foreach (CardButton button in handButtons)
+            if (button.heldCard == card)
+            {
+                button.SetHeldCard(null);
+                hand.Remove(card);
+                SetNullCardsInactive();
+                return;
+            }
+        Debug.LogWarning("Tried to remove " + card.cardName + " from hand, but it wasn't there.");
     }
 
     private void ShuffleDiscardPileIntoDrawPile()
@@ -153,17 +194,6 @@ public class CardManager : Singleton<CardManager>
         drawPile.AddRange(discardPile);
         discardPile.Clear();
         ShuffleList(drawPile);
-    }
-
-    public void UpdateHandButtons()
-    {
-        for (int i = 0; i < handButtons.Count; i++)
-        {
-            if (hand.Count >= i + 1)
-                handButtons[i].SetHeldCard(hand[i]);
-            else
-                handButtons[i].SetHeldCard(null);
-        }
     }
 
     public void SetHeldCardButton(CardButton b)

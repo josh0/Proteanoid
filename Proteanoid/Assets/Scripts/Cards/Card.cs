@@ -28,8 +28,11 @@ public class Card : ScriptableObject
     /// <summary>Activates all actions on the card. Should be called AFTER OnSelect(), and should only be called by the Player script.</summary>
     public IEnumerator OnPlay()
     {
-        cardButton.SetHeldCard(null);
-        foreach(UnitAction action in actions)
+        if (keywords.Contains(Keywords.exhaust))
+            CardManager.Instance.ExhaustCard(this);
+        else
+            CardManager.Instance.DiscardCard(this);
+        foreach (UnitAction action in actions)
         {
             yield return action.OnAct(Player.instance, GetTargetsFromActionTargetType(action.targetType));
             yield return new WaitForSeconds(0.1f);

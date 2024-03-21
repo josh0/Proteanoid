@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(CardButton))]
 public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private int originalSiblingIndex;
+    private int targetSiblingIndex;
     [SerializeField] private Transform targetTransform;
     private Vector3 moveOffset;
     [SerializeField] private float moveSpeed;
@@ -18,7 +18,7 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private void Awake()
     {
-        originalSiblingIndex = transform.GetSiblingIndex();
+        targetSiblingIndex = transform.GetSiblingIndex();
         moveOffset = Vector3.down * downwardOffsetWhenInactive;
         baseCardButtonClass = GetComponent<CardButton>();
     }
@@ -39,6 +39,17 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     {
         if (targetTransform != null)
             targetTransform.gameObject.SetActive(active);
+    }
+
+    /// <summary>
+    /// Sets the sibling index of this card and its target transform to the highest it can be. <br />
+    /// Should be called after drawing a card so that it appears on the right of the hand.
+    /// </summary>
+    public void ResetSiblingIndex()
+    {
+        transform.SetAsLastSibling();
+        targetTransform.SetAsLastSibling();
+        targetSiblingIndex = transform.GetSiblingIndex();
     }
 
     public void SetTargetTransform(Transform t) =>
@@ -68,7 +79,7 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        transform.SetSiblingIndex(originalSiblingIndex);
+        transform.SetSiblingIndex(targetSiblingIndex);
         moveOffset = Vector3.down * downwardOffsetWhenInactive;
         Tooltip.Instance.ClearTooltip(transform);
     }
