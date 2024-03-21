@@ -35,7 +35,8 @@ public abstract class UnitAction : ScriptableObject
     public int appliedEffectStacks;
 
     public string actionName;
-    public string actionTooltip;
+    [Tooltip("Some tags: [power] [stacks]")]
+    [SerializeField] private string actionTooltip;
 
     [HideInInspector] public int damageModifier = 0;
     [HideInInspector] public int blockModifier = 0;
@@ -50,5 +51,31 @@ public abstract class UnitAction : ScriptableObject
     {
         if (appliedEffect != null && appliedEffectStacks != 0)
         target.AddEffect(appliedEffect, appliedEffectStacks);
+    }
+
+    public string GetTooltip(Unit actor)
+    {
+        String s = actionTooltip.Replace("[power]", GetPredictedPower(actor).ToString());
+
+        if (appliedEffect != null)
+        {
+            if (targetType == TargetType.self)
+                s += "and gain ";
+            else
+                s += "and apply ";
+            s += appliedEffectStacks + " " + appliedEffect.effectName;
+        }
+
+        return s;
+    }
+
+    protected int GetPredictedPower(Unit actor)
+    {
+        if (this is AttackAction)
+            return power + damageModifier + actor.strength;
+        else if (this is BlockAction)
+            return power + blockModifier;
+        else
+            return power;
     }
 }

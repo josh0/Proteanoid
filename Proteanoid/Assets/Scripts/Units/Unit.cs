@@ -12,6 +12,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(UnitMovement))]
 public abstract class Unit : MonoBehaviour
 {
+    public string unitName;
     public int hp;
     [SerializeField] private int maxHp;
     [SerializeField] private ShakeMovement graphicShaker;

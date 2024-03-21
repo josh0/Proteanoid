@@ -38,14 +38,14 @@ public class Tooltip : Singleton<Tooltip>
     /// Display the description of each unique action in a given list of actions in the tooltip box. <br />
     /// If more than 5 unique actions are provided, only the first 5 will be displayed.
     /// </summary>
-    public void SetActionTooltip(Transform sender, List<UnitAction> actionsToDisplay, List<StatusEffect> statusEffectsToDisplay)
+    public void SetActionTooltip(Transform sender, List<UnitAction> actionsToDisplay, List<StatusEffect> statusEffectsToDisplay, Unit actor, bool isSenderUnit)
     {
         List<UnitAction> actions = actionsToDisplay.Distinct().ToList();
         activeTooltipSender = sender;
         for(int i = 0; i < actionDescriptions.Count; i++)
         {
             if (actions.Count >= i + 1)
-                actionDescriptions[i].SetDescriptionWithTooltip(actions[i]);
+                actionDescriptions[i].SetDescriptionWithTooltip(actions[i], actor);
             else
                 actionDescriptions[i].SetActive(false);
         }
@@ -54,20 +54,20 @@ public class Tooltip : Singleton<Tooltip>
         if (statusEffectsToDisplay == null || statusEffectsToDisplay.Count == 0)
             statusTooltipRect.gameObject.SetActive(false);
         else
-            SetStatusDescriptions(statusEffectsToDisplay.Distinct().ToList());
+            SetStatusDescriptions(statusEffectsToDisplay.Distinct().ToList(), isSenderUnit);
 
         labelText.gameObject.SetActive(false);
 
         SetPosNextToTransform(sender);
     }
 
-    private void SetStatusDescriptions(List<StatusEffect> effects)
+    private void SetStatusDescriptions(List<StatusEffect> effects, bool isSenderUnit)
     {
         statusTooltipRect.gameObject.SetActive(true);
         for (int i = 0; i < statusDescriptions.Count; i++)
         {
             if (effects.Count >= i + 1)
-                statusDescriptions[i].SetDescriptionWithTooltip(effects[i]);
+                statusDescriptions[i].SetDescriptionWithTooltip(effects[i], isSenderUnit);
             else
                 statusDescriptions[i].SetActive(false);
         }
@@ -80,11 +80,11 @@ public class Tooltip : Singleton<Tooltip>
     /// <param name="actionsToDisplay">The actions that should be displayed.</param>
     /// <param name="label">The name of the unit sending this tooltip.</param>
     /// <param name="statusEffectsToDisplay">The status effects to display in the tooltip box - If null, disable the tooltip box.</param>
-    public void SetUnitTooltip(Transform sender, List<UnitAction> actionsToDisplay, string label, List<StatusEffect> statusEffectsToDisplay)
+    public void SetUnitTooltip(Transform sender, List<UnitAction> actionsToDisplay, Unit unit)
     {
-        SetActionTooltip(sender, actionsToDisplay, statusEffectsToDisplay);
+        SetActionTooltip(sender, actionsToDisplay, unit.statusEffects, unit, true);
         labelText.gameObject.SetActive(true);
-        labelText.text = label;
+        labelText.text = unit.unitName;
     }
 
     public void ClearTooltip(Transform sender)

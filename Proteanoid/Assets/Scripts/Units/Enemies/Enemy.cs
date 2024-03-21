@@ -13,7 +13,6 @@ public abstract class Enemy : Unit
 {
     ///<summary>The script that updates this enemy's intent SpriteRenderer and text.</summary>
     [SerializeField] protected ActionDescription intentDesc;
-    public string enemyName;
 
     /// <summary>The action this enemy will take at the start of its turn.</summary>
     public UnitAction intent { get; protected set; }

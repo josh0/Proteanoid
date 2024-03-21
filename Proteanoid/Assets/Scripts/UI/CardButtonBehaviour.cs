@@ -58,7 +58,7 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         transform.SetAsLastSibling();
-        Tooltip.Instance.SetActionTooltip(transform, baseCardButtonClass.heldCard.actions, GetStatusEffectsToDisplay());
+        Tooltip.Instance.SetActionTooltip(transform, baseCardButtonClass.heldCard.actions, GetStatusEffectsToDisplay(), Player.instance, false);
         moveOffset = Vector3.zero;
     }
 

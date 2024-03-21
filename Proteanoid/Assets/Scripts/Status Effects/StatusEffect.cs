@@ -12,7 +12,8 @@ public abstract class StatusEffect : ScriptableObject
 
     public Sprite icon;
     public string effectName;
-    public string description;
+    [Tooltip("[stacks] will be replaced accordingly.")]
+    [SerializeField] private string description;
 
     /// <summary>
     /// Adds a given number of stacks and updates the stack counter. <br />
@@ -27,4 +28,12 @@ public abstract class StatusEffect : ScriptableObject
     public virtual void OnRoundEnd(Unit affectedUnit) { }
     public virtual void OnTakeDamage(Unit affectedUnit) { }
     public virtual void OnStartTurn(Unit affectedUnit) { }
+
+    public string GetTooltip(bool showStacks)
+    {
+        if (showStacks)
+            return description.Replace("[stacks]", stacks.ToString());
+        else
+            return description.Replace("[stacks]", "X");
+    }
 }

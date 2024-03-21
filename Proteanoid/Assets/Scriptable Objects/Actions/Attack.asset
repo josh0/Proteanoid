@@ -18,6 +18,6 @@ MonoBehaviour:
   appliedEffect: {fileID: 0}
   appliedEffectStacks: 0
   actionName: Attack
-  actionTooltip: Deal damage to an enemy.
+  actionTooltip: Deal [power] damage to an enemy.
   damageModifier: 0
   blockModifier: 0

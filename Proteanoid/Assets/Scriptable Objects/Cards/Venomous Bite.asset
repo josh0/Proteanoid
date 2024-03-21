@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Venomous Bite
   m_EditorClassIdentifier: 
   actions:
-  - {fileID: 11400000, guid: 3f43b446f7b45634280f852c6b0bfdb3, type: 2}
+  - {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
   cardName: Venomous Bite
   manaCost: 1
   keywords: 02000000

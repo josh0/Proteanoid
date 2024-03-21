@@ -53,7 +53,7 @@ public class ActionDescription : MonoBehaviour
     /// SetDescription(action), then also enable the description text (if this object has one), and update it. <br />
     /// Should only be used for the Tooltip Box.
     /// </summary>
-    public void SetDescriptionWithTooltip(UnitAction action)
+    public void SetDescriptionWithTooltip(UnitAction action, Unit actor)
     {
         SetDescription(action);
         if (descriptionText == null || nameText == null)
@@ -61,14 +61,14 @@ public class ActionDescription : MonoBehaviour
             Debug.LogWarning("Tried to call SetDescriptionWithTooltip() on an action description with no description or name text.");
             return;
         }
-        descriptionText.text = action.actionTooltip;
+        descriptionText.text = action.GetTooltip(actor);
         nameText.text = action.actionName;
     }
 
     /// <summary>
     /// Same as first override, but displays a status effect instead of an action.
     /// </summary>
-    public void SetDescriptionWithTooltip(StatusEffect effect)
+    public void SetDescriptionWithTooltip(StatusEffect effect, bool isSenderUnit)
     {
         SetDescription(effect);
         if (descriptionText == null || nameText == null)
@@ -76,7 +76,7 @@ public class ActionDescription : MonoBehaviour
             Debug.LogWarning("Tried to call SetDescriptionWithTooltip() on an action description with no description or name text.");
             return;
         }
-        descriptionText.text = effect.description;
+        descriptionText.text = effect.GetTooltip(isSenderUnit);
         nameText.text = effect.effectName;
     }
 

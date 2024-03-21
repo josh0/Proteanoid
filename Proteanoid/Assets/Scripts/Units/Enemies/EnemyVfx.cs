@@ -18,7 +18,7 @@ public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Tooltip.Instance.SetUnitTooltip(transform, new List<UnitAction> { baseEnemyClass.intent }, baseEnemyClass.enemyName, baseEnemyClass.statusEffects);
+        Tooltip.Instance.SetUnitTooltip(transform, new List<UnitAction> { baseEnemyClass.intent }, baseEnemyClass);
         isMouseOverEnemy = true;
     }
 
