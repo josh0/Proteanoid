@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8603a60d170374a9986669f5c6b369, type: 3}
   m_Name: Slash
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
+  actionConstructors:
+  - action: {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
+    actionPower: 5
+    effect: {fileID: 0}
+    effectStacks: 0
   cardName: Slash
-  cardDescription: 
-  sprite: {fileID: 0}
   manaCost: 1
+  keywords: 

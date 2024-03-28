@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8603a60d170374a9986669f5c6b369, type: 3}
   m_Name: Venomous Bite
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
+  actionConstructors:
+  - action: {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
+    actionPower: 2
+    effect: {fileID: 11400000, guid: 6289ff39d2cdec14a8bc19f8b56b493d, type: 2}
+    effectStacks: 5
   cardName: Venomous Bite
   manaCost: 1
   keywords: 02000000

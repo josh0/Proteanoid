@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8603a60d170374a9986669f5c6b369, type: 3}
   m_Name: Assimilate
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: eef6583528d26f244af2607818748670, type: 2}
+  actionConstructors:
+  - action: {fileID: 11400000, guid: eef6583528d26f244af2607818748670, type: 2}
+    effect: {fileID: 0}
+    effectStacks: 0
   cardName: Assimilate
   manaCost: 1
   keywords: 000000000100000002000000

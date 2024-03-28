@@ -20,6 +20,8 @@ public class CardManager : Singleton<CardManager>
     private void Start()
     {
         drawPile.AddRange(Player.instance.deck);
+        foreach (Card card in drawPile)
+            card.OnCreate();
         ShuffleList(drawPile);
         UpdateHandButtonTargets();
         SetNullCardsInactive();

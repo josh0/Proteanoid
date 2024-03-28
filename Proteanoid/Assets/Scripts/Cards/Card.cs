@@ -7,7 +7,8 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "Card")]
 public class Card : ScriptableObject
 {
-    public List<UnitAction> actions;
+    [SerializeField] private List<ActionConstructor> actionConstructors = new();
+    public List<UnitAction> actions { get; private set; } = new();
 
     public string cardName;
     public int manaCost;
@@ -24,6 +25,16 @@ public class Card : ScriptableObject
     }
 
     public List<Keywords> keywords;
+
+    /// <summary>
+    /// Adds the list of constructors that was assigned in the inspector to the list of this card's actions. <br />
+    /// Should be used when the card is first offered as a reward.
+    /// </summary>
+    public void OnCreate()
+    {
+        foreach (ActionConstructor con in actionConstructors)
+            actions.Add(con.CreateAction());
+    }
 
     /// <summary>Activates all actions on the card. Should be called AFTER OnSelect(), and should only be called by the Player script.</summary>
     public IEnumerator OnPlay()
