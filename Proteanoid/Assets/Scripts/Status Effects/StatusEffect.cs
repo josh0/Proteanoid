@@ -11,7 +11,12 @@ public abstract class StatusEffect : ScriptableObject
     public int stacks { get; private set; }
 
     public Sprite icon;
+    [Tooltip("The name to be displayed in the tooltip (eg Poisoned, Weak, etc)")]
     public string effectName;
+
+    [Tooltip("The adjective to be used for card names (eg Venomous, Hearty, etc)")]
+    public string adjective;
+
     [Tooltip("[stacks] will be replaced accordingly.")]
     [SerializeField] private string description;
 

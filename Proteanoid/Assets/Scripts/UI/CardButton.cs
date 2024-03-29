@@ -59,7 +59,7 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
 
     public void UpdateCardText()
     {
-        nameText.text = heldCard.cardName;
+        nameText.text = CardNameGenerator.GetName(heldCard.actions);
         UpdateDescription();
         costText.text = heldCard.manaCost.ToString();
     }

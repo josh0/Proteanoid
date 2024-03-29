@@ -10,8 +10,6 @@ public class Card : ScriptableObject
     [Tooltip("The actions in this list will be added to the card when it is created. (Intended for inspector only)")]
     [SerializeField] private List<ActionConstructor> actionConstructors = new();
     public List<UnitAction> actions { get; private set; } = new();
-
-    public string cardName;
     public int manaCost;
 
     private Unit attackTarget;

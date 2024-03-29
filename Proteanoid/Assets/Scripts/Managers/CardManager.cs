@@ -144,7 +144,7 @@ public class CardManager : Singleton<CardManager>
             hand.Add(card);
         else
         {
-            Debug.Log("Your hand is full. Adding " + card.cardName + " to discard pile.");
+            Debug.Log("Your hand is full. Adding card to discard pile.");
             AddCardToDiscardPile(card);
         }
     }
@@ -199,7 +199,7 @@ public class CardManager : Singleton<CardManager>
                 SetNullCardsInactive();
                 return;
             }
-        Debug.LogWarning("Tried to remove " + card.cardName + " from hand, but it wasn't there.");
+        Debug.LogWarning("Tried to remove " + card.name + " from hand, but it wasn't there.");
     }
 
     private void ShuffleDiscardPileIntoDrawPile()
