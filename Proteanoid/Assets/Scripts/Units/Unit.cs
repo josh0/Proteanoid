@@ -50,6 +50,7 @@ public abstract class Unit : MonoBehaviour
     {
         foreach (StatusEffect effect in new List<StatusEffect>(statusEffects))
             effect.OnStartTurn(this);
+        block = 0;
     }
 
     public void OnRoundEnd()
