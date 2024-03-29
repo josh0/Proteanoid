@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4eef8aabe571da459296424249758e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: 
   hp: 15
   maxHp: 35
   graphicShaker: {fileID: 8173150891731720782}
@@ -56,10 +57,18 @@ MonoBehaviour:
   statusEffects: []
   hpSlider: {fileID: 6057199711852654443}
   intentDesc: {fileID: 931413711753755159}
-  enemyName: Red Amogus
+  rewards:
+    actionRewards: []
+    cardRewards: []
   unitActions:
-  - {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
-  - {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
+  - action: {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
+    actionPower: 6
+    effect: {fileID: 11400000, guid: 6289ff39d2cdec14a8bc19f8b56b493d, type: 2}
+    effectStacks: 2
+  - action: {fileID: 11400000, guid: 77895167db09c8f469e3cb93de5e30ff, type: 2}
+    actionPower: 5
+    effect: {fileID: 0}
+    effectStacks: 0
 --- !u!114 &2494415427801271764
 MonoBehaviour:
   m_ObjectHideFlags: 0

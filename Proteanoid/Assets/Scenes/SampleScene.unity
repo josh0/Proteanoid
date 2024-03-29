@@ -9868,6 +9868,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1517307801555671187, guid: 6dfbf484b2f04e44c8106c7b5b8aff8a, type: 3}
+      propertyPath: unitName
+      value: Red Amogus
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517307801555671187, guid: 6dfbf484b2f04e44c8106c7b5b8aff8a, type: 3}
       propertyPath: rewards.actionRewards.Array.size
       value: 1
       objectReference: {fileID: 0}
