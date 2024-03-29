@@ -7,6 +7,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "Card")]
 public class Card : ScriptableObject
 {
+    [Tooltip("The actions in this list will be added to the card when it is created. (Intended for inspector only)")]
     [SerializeField] private List<ActionConstructor> actionConstructors = new();
     public List<UnitAction> actions { get; private set; } = new();
 
@@ -24,7 +25,7 @@ public class Card : ScriptableObject
         fleeting
     }
 
-    public List<Keywords> keywords;
+    public List<Keywords> keywords = new();
 
     /// <summary>
     /// Adds the list of constructors that was assigned in the inspector to the list of this card's actions. <br />

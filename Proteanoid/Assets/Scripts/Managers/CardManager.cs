@@ -138,6 +138,17 @@ public class CardManager : Singleton<CardManager>
         discardPile.Add(card);
     }
 
+    public void AddCardToHand(Card card)
+    {
+        if (SetAvailableHandButtonAs(card))
+            hand.Add(card);
+        else
+        {
+            Debug.Log("Your hand is full. Adding " + card.cardName + " to discard pile.");
+            AddCardToDiscardPile(card);
+        }
+    }
+
     private bool SetAvailableHandButtonAs(Card card)
     {
         int i = 0;
