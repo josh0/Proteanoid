@@ -63,6 +63,12 @@ public class Tooltip : Singleton<Tooltip>
 
     private void SetStatusDescriptions(List<StatusEffect> effects, bool isSenderUnit)
     {
+        if (effects == null)
+        {
+            foreach (ActionDescription statusDescription in statusDescriptions)
+                statusDescription.SetActive(false);
+            return;
+        }
         statusTooltipRect.gameObject.SetActive(true);
         for (int i = 0; i < statusDescriptions.Count; i++)
         {

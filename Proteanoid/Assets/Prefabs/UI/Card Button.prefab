@@ -263,7 +263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.7, y: 52}
+  m_AnchoredPosition: {x: -0.7, y: 54.5}
   m_SizeDelta: {x: 10.05, y: 11.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5939389290998188294
@@ -580,8 +580,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 39.3}
-  m_SizeDelta: {x: 61.7, y: 18.486}
+  m_AnchoredPosition: {x: 0, y: 39.75061}
+  m_SizeDelta: {x: 65, y: 22.4768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5939389292107838006
 CanvasRenderer:
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pierce
+  m_text: Poisonous Slash
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e66e7053b2082cb4a82eb58d5ffed8a8, type: 2}
   m_sharedMaterial: {fileID: -1638790490533261442, guid: e66e7053b2082cb4a82eb58d5ffed8a8, type: 2}
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.45
+  m_fontSize: 10.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

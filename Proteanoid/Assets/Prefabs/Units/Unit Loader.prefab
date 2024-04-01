@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1517307801555671186}
-  - component: {fileID: 1517307801555671187}
-  - component: {fileID: 2494415427801271764}
+  - component: {fileID: 2560176941199796217}
   m_Layer: 0
-  m_Name: Red Amogus
+  m_Name: Unit Loader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1517307801555671187
+--- !u!114 &2560176941199796217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,67 +44,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1517307801555671184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4eef8aabe571da459296424249758e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 63e40c49adf4f1c4c9e0de736aabdbdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: 
-  hp: 15
-  maxHp: 35
+  loadedUnit: {fileID: 0}
+  vfx: {fileID: 7955990610642236357}
+  <hpSlider>k__BackingField: {fileID: 6057199711852654443}
+  intentDescription: {fileID: 931413711753755159}
   graphicShaker: {fileID: 8173150891731720782}
   graphicRenderer: {fileID: 3787421053158754033}
-  strength: 0
-  statusEffects: []
-  hpSlider: {fileID: 6057199711852654443}
-  intentDesc: {fileID: 931413711753755159}
-  rewards:
-    actionRewards: []
-    cardRewards: []
-  unitActions:
-  - action: {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
-    actionPower: 6
-    effect: {fileID: 11400000, guid: 6289ff39d2cdec14a8bc19f8b56b493d, type: 2}
-    effectStacks: 2
-  - action: {fileID: 11400000, guid: 77895167db09c8f469e3cb93de5e30ff, type: 2}
-    actionPower: 5
-    effect: {fileID: 0}
-    effectStacks: 0
---- !u!114 &2494415427801271764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1517307801555671184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e90bf671b4a0874f8fef0e53a4e7237, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  aggroPos: {fileID: 0}
 --- !u!1 &1517307802075668220
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd047b4540f8b904a96d871e8bd6d90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEnemyClass: {fileID: 1517307801555671187}
+  baseUnitClass: {fileID: 0}
+  graphicShaker: {fileID: 0}
 --- !u!114 &8173150891731720782
 MonoBehaviour:
   m_ObjectHideFlags: 0

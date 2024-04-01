@@ -12,37 +12,13 @@ public class Player : Unit
     private int maxMana = 3;
     [SerializeField] private TextMeshProUGUI manaText;
 
-    [SerializeField] private CanvasGroup uiCanvasGroup;
-
-    private Weapon equippedWeapon;
-
-    public List<Card> deck;
-    [SerializeField] private List<Card> testCards;
+    public List<Card> deck = new();
     private bool isTakingTurn;
 
     public static Player instance;
-    protected override void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-
-        equippedWeapon = ScriptableObject.CreateInstance<Weapon>();
-        base.Awake();
-    }
-    protected override void Start()
-    {
-        base.Start();
-        foreach(Card card in testCards)
-        {
-            AddCardToDeck(card);
-        }
-    }
     public override IEnumerator TurnRoutine()
     {
-        uiCanvasGroup.interactable = true;
-        uiCanvasGroup.blocksRaycasts = true;
+        FightUI.Instance.SetActive(true);
 
         isTakingTurn = true;
 
@@ -55,18 +31,13 @@ public class Player : Unit
 
         CardManager.Instance.DiscardHand();
 
-        uiCanvasGroup.interactable = false;
-        uiCanvasGroup.blocksRaycasts = false;
+        FightUI.Instance.SetActive(false);
     }
 
-    private void OnEnable()
+    public override void OnStartTurn()
     {
-        FightManager.OnRoundStart += RefillMana;
-    }
-
-    private void OnDisable()
-    {
-        FightManager.OnRoundStart -= RefillMana;
+        base.OnStartTurn();
+        RefillMana();
     }
 
     public void EndTurn() =>
@@ -74,27 +45,15 @@ public class Player : Unit
 
     public void AddCardToDeck(Card card)
     {
-        deck.Add(Instantiate(card));
-    }
-
-    /// <summary>
-    /// Plays a card, reducing mana equal to that card's cost. Should be called AFTER OnSelectCard().</summary>
-    /// <param name="cardToPlay">The selected card.</param>
-    /// <returns>Whether or not the card was successfully played.</returns>
-    public bool PlayCard(Card cardToPlay)
-    {
-        Card card = equippedWeapon.GetModifiedCard(cardToPlay);
-        if (card.manaCost > Player.mana)
-            return false;
-        AddMana(-card.manaCost);
-        StartCoroutine(card.OnPlay());
-        return true;
+        Card newCard = Instantiate(card);
+        newCard.OnCreate();
+        deck.Add(newCard);
     }
 
     public void AddMana(int amount)
     {
         mana += amount;
-        manaText.text = mana.ToString() + "/" + maxMana;
+        ManaCounter.Instance.UpdateText();
         CardManager.Instance.UpdateCardInteractability();
     }
 

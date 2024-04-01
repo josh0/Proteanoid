@@ -7,12 +7,12 @@ public class AttackAction : UnitAction
 {
     public override IEnumerator OnAct(Unit actor, List<Unit> targets)
     {
-        yield return actor.movement.MoveToAggroPos();
         foreach (Unit target in targets)
             if (target != null)
             {
                 target.TakeDamage(power + damageModifier, true);
                 ApplyEffectToTarget(target);
             }
+        yield return null;
     }
 }

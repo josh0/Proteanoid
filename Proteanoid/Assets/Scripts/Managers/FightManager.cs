@@ -3,16 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FightManager : MonoBehaviour
+public class FightManager : Singleton<FightManager>
 {
     public static List<Enemy> enemies = new();
+    [SerializeField] private Transform fightCameraPos;
+    [SerializeField] private List<UnitLoader> enemyLoaders;
+
+    [SerializeField] private List<Enemy> testEnemies;
 
     public static event Action OnRoundStart;
     public static event Action OnFightStart;
-
     private void Start()
     {
-        StartCoroutine(TurnCycleRoutine());
+        StartCoroutine(StartFightRoutine(testEnemies));
+    }
+    public IEnumerator StartFightRoutine(List<Enemy> enemiesInFight) {
+
+        CardManager.Instance.ResetCards();
+        CardManager.Instance.DrawInnateCards();
+
+        for(int i=0; i<enemyLoaders.Count; i++)
+        {
+            if (enemiesInFight.Count > i + 1)
+                enemyLoaders[i].LoadNewUnit(enemiesInFight[i]);
+            else
+                enemyLoaders[i].gameObject.SetActive(false);
+        }
+        yield return CameraMovement.Instance.MoveToPos(fightCameraPos.position, 1);
+        OnFightStart?.Invoke();
+        yield return TurnCycleRoutine();
+
     }
 
     /// <summary>
@@ -20,13 +40,15 @@ public class FightManager : MonoBehaviour
     /// </summary>
     private IEnumerator TurnCycleRoutine()
     {
-        OnFightStart?.Invoke();
         while(enemies.Count > 0)
         {
-            OnRoundStart();
+            OnRoundStart?.Invoke();
+
+            foreach (Enemy enemy in enemies)
+                enemy.UpdateIntent();
+
             Player.instance.OnStartTurn();
             yield return Player.instance.TurnRoutine();
-            StartCoroutine(Player.instance.movement.MoveToOriginalPos());
 
             foreach (Enemy enemy in new List<Enemy>(enemies))
             {
@@ -36,7 +58,6 @@ public class FightManager : MonoBehaviour
                 if (enemy != null)
                 {
                     yield return enemy.TurnRoutine();
-                    StartCoroutine(enemy.movement.MoveToOriginalPos());
                 }
             }
 

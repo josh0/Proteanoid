@@ -18,7 +18,7 @@ public class ActionConstructor
     /// <returns></returns>
     public UnitAction CreateAction()
     {
-        UnitAction a = ScriptableObject.Instantiate(action);
+        UnitAction a = UnityEngine.Object.Instantiate(action);
         a.power = actionPower;
         a.appliedEffect = effect;
         a.appliedEffectStacks = effectStacks;

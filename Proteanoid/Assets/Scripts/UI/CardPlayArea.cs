@@ -29,7 +29,7 @@ public class CardPlayArea : Singleton<CardPlayArea>, IPointerEnterHandler, IPoin
             //On mouse up over this area, play the selected card.
             if (isMouseOverArea && Input.GetMouseButtonUp(0))
             {
-                Player.instance.PlayCard(selectedCard);
+                CardManager.Instance.PlayCard(selectedCard);
                 break;
             }
             yield return null;

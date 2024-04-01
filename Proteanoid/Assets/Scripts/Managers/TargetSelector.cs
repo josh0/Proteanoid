@@ -47,7 +47,7 @@ public class TargetSelector : Singleton<TargetSelector>
         if (selectedTarget != null)
         {
             card.SetAttackTarget(selectedTarget);
-            Player.instance.PlayCard(card);
+            CardManager.Instance.PlayCard(card);
             selectPromptAnimator.SetBool("isDisplayed", false);
         }
     }

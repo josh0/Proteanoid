@@ -9,44 +9,24 @@ using UnityEngine.UI;
 /// <summary>
 /// Any unit in the fight, including the player and enemies.
 /// </summary>
-[RequireComponent(typeof(UnitMovement))]
-public abstract class Unit : MonoBehaviour
+public abstract class Unit : ScriptableObject
 {
     public string unitName;
-    public int hp;
-    [SerializeField] private int maxHp;
-    [SerializeField] private ShakeMovement graphicShaker;
-    [SerializeField] private Image graphicRenderer;
-
-    /// <summary>The script controlling this unit's movement.</summary>
-    public UnitMovement movement { get; private set; }
-
-    ///<summary>The amount of damage added to this unit's attacks.</summary>
+    [HideInInspector] public int hp;
+    public int maxHp;
     public int strength;
+    public Sprite sprite;
+
+    [HideInInspector] public UnitLoader loader;
 
     /// <summary>The list of status effects that should be displayed in the tooltip box.</summary>
     [HideInInspector] public List<StatusEffect> statusEffects = new();
 
-    [SerializeField] private HPSlider hpSlider;
-
-    private int block;
-
-    protected virtual void Awake()
-    {
-        hp = maxHp;
-        movement = GetComponent<UnitMovement>();
-    }
-
-    protected virtual void Start()
-    {
-        hpSlider.SetMaxHPVal(maxHp);
-        hpSlider.SetHPVal(maxHp);
-        hpSlider.SetBlockVal(0);
-    }
+    public int block;
 
     //Both of these next methods make a copy of the statusEffect list to avoid the collection modified error.
 
-    public void OnStartTurn()
+    public virtual void OnStartTurn()
     {
         foreach (StatusEffect effect in new List<StatusEffect>(statusEffects))
             effect.OnStartTurn(this);
@@ -69,8 +49,6 @@ public abstract class Unit : MonoBehaviour
     /// <returns>The amount of unblocked damage dealt.</returns>
     public int TakeDamage(int amount, bool procsOnDamageEffects)
     {
-        if (gameObject == null)
-            return 0;
         int finalDamage = amount;
 
         if (block >= amount)
@@ -94,13 +72,9 @@ public abstract class Unit : MonoBehaviour
                 foreach (StatusEffect effect in new List<StatusEffect>(statusEffects))
                     effect.OnTakeDamage(this);
             }
-                
-
-            StartCoroutine(graphicShaker.ShakeForDuration(0.2f));
-            StartCoroutine(FlashRed());
         }
 
-        hpSlider.SetHPVal(hp);
+        loader.hpSlider.SetHPVal(hp);
 
         if (hp <= 0)
             Die();
@@ -110,17 +84,10 @@ public abstract class Unit : MonoBehaviour
 
     protected abstract void Die();
 
-    private IEnumerator FlashRed()
-    {
-        graphicRenderer.color = new Color(1f,0.5f,0.5f);
-        yield return new WaitForSeconds(0.1f);
-        graphicRenderer.color = Color.white;
-    }
-
     public void AddBlock(int amount)
     {
         block = Mathf.Max(0, block + amount);
-        hpSlider.SetBlockVal(block);
+        loader.hpSlider.SetBlockVal(block);
     }
 
     /// <summary>
@@ -134,7 +101,7 @@ public abstract class Unit : MonoBehaviour
             if (existingEffect.GetType() == effect.GetType())
             {
                 existingEffect.AddStacks(stacks);
-                hpSlider.SetStatusEffectDescriptions(statusEffects);
+                loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
                 return;
             }
         }
@@ -142,7 +109,7 @@ public abstract class Unit : MonoBehaviour
         newEffect.AddStacks(stacks);
         statusEffects.Add(newEffect);
         
-        hpSlider.SetStatusEffectDescriptions(statusEffects);
+        loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 
     /// <summary>Removes a given type of effect.</summary>
@@ -155,7 +122,7 @@ public abstract class Unit : MonoBehaviour
     public void RemoveEffect(StatusEffect effect)
     {
         statusEffects.Remove(effect);
-        hpSlider.SetStatusEffectDescriptions(statusEffects);
+        loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 
     public void RemoveEffectStacks<T>(int stacks) where T : StatusEffect
@@ -166,6 +133,6 @@ public abstract class Unit : MonoBehaviour
         effect.AddStacks(-stacks);
         if (effect.stacks <= 0)
             RemoveEffect(effect);
-        hpSlider.SetStatusEffectDescriptions(statusEffects);
+        loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 }

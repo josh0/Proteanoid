@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
+using TMPro;
 using UnityEngine;
 
 public class CardManager : Singleton<CardManager>
@@ -8,33 +10,43 @@ public class CardManager : Singleton<CardManager>
     [SerializeField] private List<CardButton> handButtons;
     [SerializeField] private List<Transform> handButtonTargets;
 
-    [SerializeField] private List<Card> drawPile = new();
+    [SerializeField] private List<Card> testCards;
+
+    private List<Card> drawPile = new();
     [SerializeField] private Transform drawPileTransform;
-    [SerializeField] private List<Card> discardPile = new();
+    private List<Card> discardPile = new();
     [SerializeField] private Transform discardPileTransform;
-    [SerializeField] private List<Card> hand = new();
+    private List<Card> hand = new();
 
     [SerializeField] private CanvasGroup handCanvasGroup;
 
     public CardButton heldCardButton { get; private set; }
     private void Start()
     {
-        drawPile.AddRange(Player.instance.deck);
-        foreach (Card card in drawPile)
-            card.OnCreate();
-        ShuffleList(drawPile);
+        foreach (Card c in testCards)
+        {
+            Card newCard = Instantiate(c);
+            Debug.Log(newCard);
+            Player.instance.AddCardToDeck(newCard);
+        }
         UpdateHandButtonTargets();
         SetNullCardsInactive();
     }
 
-    private void OnEnable()
+    /// <summary>
+    /// Clears the hand, draw pile, and discard pile, and puts all cards from the player's deck into the draw pile.
+    /// </summary>
+    public void ResetCards()
     {
-        FightManager.OnFightStart += DrawInnateCards;
-    }
+        hand.Clear();
+        foreach (CardButton button in handButtons)
+            button.SetHeldCard(null);
 
-    private void OnDisable()
-    {
-        FightManager.OnFightStart -= DrawInnateCards;
+        drawPile.Clear();
+        discardPile.Clear();
+
+        drawPile.AddRange(Player.instance.deck);
+        ShuffleList(drawPile);
     }
 
     private void UpdateHandButtonTargets()
@@ -44,12 +56,27 @@ public class CardManager : Singleton<CardManager>
             handButtons[i].SetTargetTransform(handButtonTargets[i]);
         }
     }
-
-    private void DrawInnateCards()
+    /// <summary>
+    /// Plays a card, reducing mana equal to that card's cost. Should be called AFTER OnSelectCard().</summary>
+    /// <param name="cardToPlay">The selected card.</param>
+    /// <returns>Whether or not the card was successfully played.</returns>
+    public bool PlayCard(Card cardToPlay)
+    {
+        if (cardToPlay.manaCost > Player.mana)
+            return false;
+        Player.instance.AddMana(-cardToPlay.manaCost);
+        StartCoroutine(cardToPlay.OnPlay());
+        return true;
+    }
+    public void DrawInnateCards()
     {
         foreach (Card card in new List<Card>(drawPile))
+        {
+            Debug.Log(card.keywords);
+
             if (card.keywords.Contains(Card.Keywords.innate))
                 DrawCard(card);
+        }
     }
 
     public void DrawNewHand()

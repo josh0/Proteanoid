@@ -32,7 +32,10 @@ public class Card : ScriptableObject
     public void OnCreate()
     {
         foreach (ActionConstructor con in actionConstructors)
+        {
             actions.Add(con.CreateAction());
+        }
+        actionConstructors.Clear();
     }
 
     /// <summary>Activates all actions on the card. Should be called AFTER OnSelect(), and should only be called by the Player script.</summary>
@@ -109,16 +112,5 @@ public class Card : ScriptableObject
                 Debug.LogWarning("Unknown Target Type: " + type);
                 return new List<Unit> { };
         }
-    }
-
-    /// <summary>
-    /// Instantiate a projectile next to the player with a random offset.
-    /// </summary>
-    /// <param name="prefab">The prefab that should be instantiated.</param>
-    /// <returns>A reference to the projectile that was instantiated.</returns>
-    protected T InstantiateProjectileAtPlayer<T>(T prefab) where T : Projectile
-    {
-        Vector2 targetPos = Player.instance.transform.position + Vector3.right * 1.5f + Random.insideUnitSphere;
-        return Instantiate(prefab, targetPos, Quaternion.identity);
     }
 }

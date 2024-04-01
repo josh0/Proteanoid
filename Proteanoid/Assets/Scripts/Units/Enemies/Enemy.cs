@@ -1,35 +1,17 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// Any unit that fights the player.
 /// </summary>
-public abstract class Enemy : Unit
+[CreateAssetMenu(menuName = "Enemy")]
+public class Enemy : Unit
 {
-    ///<summary>The script that updates this enemy's intent SpriteRenderer and text.</summary>
-    [SerializeField] protected ActionDescription intentDesc;
+    [SerializeField] private List<ActionConstructor> actionConstructors;
 
     /// <summary>The action this enemy will take at the start of its turn.</summary>
     public UnitAction intent { get; protected set; }
-
-    public EnemyRewards rewards;
-
-    protected virtual void OnEnable()
-    {
-        FightManager.enemies.Add(this);
-        FightManager.OnRoundStart += UpdateIntent;
-    }
-
-    protected virtual void OnDisable()
-    {
-        FightManager.enemies.Remove(this);
-        FightManager.OnRoundStart -= UpdateIntent;
-    }
 
     public override IEnumerator TurnRoutine()
     {
@@ -59,24 +41,14 @@ public abstract class Enemy : Unit
     /// <summary>
     /// Changes the enemy's intent. This method is to be used at the start of rounds.
     /// </summary>
-    protected abstract void UpdateIntent();
-
-    /// <summary>
-    /// Tries to deal a given amount of damage to the player.
-    /// </summary>
-    /// <param name="damage">The amount of damage the enemy should try to deal.</param>
-    /// <returns>Whether or not the attack dealt unblocked damage.</returns>
-    public bool AttackPlayer(int damage)
+    public void UpdateIntent()
     {
-        int damageDealt = Player.instance.TakeDamage(damage, true);
-        if (damageDealt > 0) return true;
-        else return false;
+        intent = actionConstructors[Random.Range(0, actionConstructors.Count)].CreateAction();
+        loader.UpdateIntentIcon(intent);
     }
 
     protected override void Die()
     {
-        movement.StopAllCoroutines();
-        StopAllCoroutines();
-        Destroy(gameObject);
+        FightManager.enemies.Remove(this);
     }
 }
