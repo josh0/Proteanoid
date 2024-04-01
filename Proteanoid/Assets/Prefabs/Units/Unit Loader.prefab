@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e40c49adf4f1c4c9e0de736aabdbdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedUnit: {fileID: 0}
+  unitToLoadOnStart: {fileID: 0}
   vfx: {fileID: 7955990610642236357}
   <hpSlider>k__BackingField: {fileID: 6057199711852654443}
   intentDescription: {fileID: 931413711753755159}
@@ -375,8 +375,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 2011034585
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &7220712498832998243
 MonoBehaviour:
@@ -887,6 +887,14 @@ PrefabInstance:
     - target: {fileID: 7572337526614652843, guid: 891561911e850624e9f81e87952076ec, type: 3}
       propertyPath: m_Name
       value: HP Slider Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572337526614652887, guid: 891561911e850624e9f81e87952076ec, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7572337526614652887, guid: 891561911e850624e9f81e87952076ec, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 891561911e850624e9f81e87952076ec, type: 3}

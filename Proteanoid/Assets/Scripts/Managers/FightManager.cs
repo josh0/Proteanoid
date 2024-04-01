@@ -23,7 +23,7 @@ public class FightManager : Singleton<FightManager>
 
         for(int i=0; i<enemyLoaders.Count; i++)
         {
-            if (enemiesInFight.Count > i + 1)
+            if (enemiesInFight.Count >= i + 1)
                 enemyLoaders[i].LoadNewUnit(enemiesInFight[i]);
             else
                 enemyLoaders[i].gameObject.SetActive(false);

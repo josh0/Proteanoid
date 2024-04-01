@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b4dc280570119840bed82747d74cb0b, type: 3}
-  m_Name: Fight Test
+  m_Name: Boss Test
   m_EditorClassIdentifier: 
-  eventIcon: {fileID: 21300000, guid: 643babf4b62a0ef4a94ed82a2a7ab071, type: 3}
+  eventIcon: {fileID: 21300000, guid: 3ebd8d2d762d14145ad4948a3490ff1c, type: 3}
   enemiesInFight:
+  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
+  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
+  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
   - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
   - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}

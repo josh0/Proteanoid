@@ -6,10 +6,6 @@ using UnityEngine.EventSystems;
 public class CardPlayArea : Singleton<CardPlayArea>, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private bool isMouseOverArea;
-    private void OnMouseUp()
-    {
-        Debug.Log("Mouse up");
-    }
     /// <summary>
     /// Waits for the player to release left click over this object, then plays the given card. If the player right clicks, instead de-select the given card.
     /// </summary>
