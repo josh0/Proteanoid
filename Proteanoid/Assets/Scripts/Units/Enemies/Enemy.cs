@@ -50,5 +50,7 @@ public class Enemy : Unit
     protected override void Die()
     {
         FightManager.enemies.Remove(this);
+        if (FightManager.enemies.Count == 0)
+            Player.instance.EndTurn();
     }
 }

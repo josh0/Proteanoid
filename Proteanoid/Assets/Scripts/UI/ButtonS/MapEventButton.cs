@@ -19,13 +19,14 @@ public class MapEventButton : MonoBehaviour
 
     public void GenerateEvent()
     {
-        mapEvent = ScriptableObject.Instantiate(possibleEvents[Random.Range(0,possibleEvents.Count)]);
+        mapEvent = Instantiate(possibleEvents[Random.Range(0,possibleEvents.Count)]);
         icon.sprite = mapEvent.eventIcon;
     }
 
     private void StartEvent()
     {
-        StartCoroutine(EventRoutine());
+        if (mapEvent != null)
+            StartCoroutine(EventRoutine());
     }
 
     private IEnumerator EventRoutine()

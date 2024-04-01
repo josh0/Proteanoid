@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class UnitLoader : MonoBehaviour
 {
-    [field: SerializeField] public Unit loadedUnit { get; protected set; }
+    [SerializeField] protected Unit unitToLoadOnStart;
+    public Unit loadedUnit { get; protected set; }
     [SerializeField] private EnemyVfx vfx;
     private void Start()
     {
-        if (loadedUnit != null)
-            LoadNewUnit(loadedUnit);
+        if (unitToLoadOnStart != null)
+            LoadNewUnit(unitToLoadOnStart);
     }
 
     /// <summary>The script controlling this unit's movement.</summary>

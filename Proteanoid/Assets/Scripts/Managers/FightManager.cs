@@ -9,15 +9,14 @@ public class FightManager : Singleton<FightManager>
     [SerializeField] private Transform fightCameraPos;
     [SerializeField] private List<UnitLoader> enemyLoaders;
 
+    [SerializeField] private Animator fightUIAnimator;
+
     [SerializeField] private List<Enemy> testEnemies;
 
     public static event Action OnRoundStart;
     public static event Action OnFightStart;
-    private void Start()
-    {
-        StartCoroutine(StartFightRoutine(testEnemies));
-    }
-    public IEnumerator StartFightRoutine(List<Enemy> enemiesInFight) {
+    public IEnumerator FightRoutine(List<Enemy> enemiesInFight) {
+        fightUIAnimator.SetBool("isMenuOpen", true);
 
         CardManager.Instance.ResetCards();
         CardManager.Instance.DrawInnateCards();
@@ -33,6 +32,8 @@ public class FightManager : Singleton<FightManager>
         OnFightStart?.Invoke();
         yield return TurnCycleRoutine();
 
+        fightUIAnimator.SetBool("isMenuOpen", false);
+        StartCoroutine(CameraMovement.Instance.MoveToPos(CameraMovement.Instance.mapPos.position, 1));
     }
 
     /// <summary>
@@ -47,21 +48,26 @@ public class FightManager : Singleton<FightManager>
             foreach (Enemy enemy in enemies)
                 enemy.UpdateIntent();
 
+            //Player turn
             Player.instance.OnStartTurn();
             yield return Player.instance.TurnRoutine();
 
+            //Enemy turns
             foreach (Enemy enemy in new List<Enemy>(enemies))
             {
                 yield return new WaitForSeconds(0.4f);
                 enemy.OnStartTurn();
                 yield return new WaitForSeconds(0.1f);
-                if (enemy != null)
+
+                if (enemies.Contains(enemy)) //Check if the enemy died in case status effects killed them
                 {
                     yield return enemy.TurnRoutine();
+                    Debug.Log("Waiting for " + enemy.name + "'s turn.");
                 }
             }
 
-            foreach(Enemy enemy in enemies)
+            //End round
+            foreach(Enemy enemy in enemies) 
                 enemy.OnRoundEnd();
             Player.instance.OnRoundEnd();
 

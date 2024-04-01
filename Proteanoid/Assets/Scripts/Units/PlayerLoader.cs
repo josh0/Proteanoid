@@ -6,7 +6,7 @@ public class PlayerLoader : UnitLoader
 {
     private void Awake()
     {
-        if (loadedUnit is not Player)
+        if (unitToLoadOnStart is not Player)
         {
             Debug.LogWarning("PlayerLoader tried to load a non-player unit.");
             return;
@@ -17,7 +17,7 @@ public class PlayerLoader : UnitLoader
             Debug.LogWarning("Tried to load multiple players.");
             return;
         }
-        Player.instance = Instantiate((Player) loadedUnit);
+        Player.instance = Instantiate((Player) unitToLoadOnStart);
     }
 
     public override Unit LoadNewUnit(Unit unit)

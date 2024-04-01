@@ -10,6 +10,11 @@ public class MapManager : Singleton<MapManager>
     {
         mapButtons = FindObjectsOfType<MapEventButton>(false).ToList();
     }
+
+    private void Start()
+    {
+        StartCoroutine(GenerateMap());
+    }
     public IEnumerator GenerateMap()
     {
         yield return new WaitForSeconds(0.1f);

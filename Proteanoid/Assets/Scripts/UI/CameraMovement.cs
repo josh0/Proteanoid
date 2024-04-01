@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraMovement : Singleton<CameraMovement>
 {
     [SerializeField] private AnimationCurve moveCurve;
+    [field: SerializeField] public Transform mapPos { get; private set; }
 
     /// <summary>
     /// Lerps the camera to a particular position on a movement curve.
@@ -19,7 +20,7 @@ public class CameraMovement : Singleton<CameraMovement>
         while(timeElapsed < moveTime)
         {
             timeElapsed += Time.deltaTime;
-            transform.position = Vector3.Lerp(startingPos, pos, timeElapsed / moveTime);
+            transform.position = Vector3.Lerp(startingPos, pos, moveCurve.Evaluate(timeElapsed / moveTime));
             yield return null;
         }
     }
