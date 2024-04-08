@@ -6,7 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class MapEventButton : MonoBehaviour
 {
-    [SerializeField] private List<MapEvent> possibleEvents;
+    [field: SerializeField] public List<MapEventButton> connectedNodes { get; private set; } = new();
+    [SerializeField] private List<MapEvent> possibleEvents = new();
     public MapEvent mapEvent { get; private set; }
     private Image icon;
     private Button button;
@@ -19,7 +20,9 @@ public class MapEventButton : MonoBehaviour
 
     public void GenerateEvent()
     {
-        mapEvent = Instantiate(possibleEvents[Random.Range(0,possibleEvents.Count)]);
+        if (possibleEvents.Count == 0)
+            return;
+        mapEvent = Instantiate(possibleEvents[Random.Range(0, possibleEvents.Count)]);
         icon.sprite = mapEvent.eventIcon;
     }
 
@@ -27,16 +30,21 @@ public class MapEventButton : MonoBehaviour
     {
         if (mapEvent != null)
             StartCoroutine(EventRoutine());
+        MapManager.Instance.currentNode = this;
     }
 
     private IEnumerator EventRoutine()
     {
-
+        MapManager.Instance.SetButtonsInteractable(false);
         yield return mapEvent.EventRoutine();
+        MapManager.Instance.SetButtonsInteractable(true);
     }
 
-    void Start()
+    public void SetButtonInteractable(bool i)
     {
-        
+        if (mapEvent != null)
+            button.interactable = i;
+        else
+            button.interactable = false;
     }
 }

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionConstructors:
   - action: {fileID: 11400000, guid: 7efbfd453b3d5264d949fe184e0e9e52, type: 2}
-    actionPower: 3
+    actionPower: 50
     effect: {fileID: 11400000, guid: 6289ff39d2cdec14a8bc19f8b56b493d, type: 2}
-    effectStacks: 3
+    effectStacks: 50
   manaCost: 1
   keywords: 02000000
