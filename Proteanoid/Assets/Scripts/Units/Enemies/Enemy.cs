@@ -13,6 +13,8 @@ public class Enemy : Unit
     /// <summary>The action this enemy will take at the start of its turn.</summary>
     public UnitAction intent { get; protected set; }
 
+    public List<EnemyPart> possiblePartRewards;
+
     public override IEnumerator TurnRoutine()
     {
         if (hp > 0)
