@@ -30,9 +30,6 @@ public static class CardNameGenerator
 
     public static string GetName(List<UnitAction> actions)
     {
-        if (actions.OfType<AssimilateAction>().ToList().Count > 0)
-            return "Assimilate";
-
         actionNameMap.TryGetValue((actions.OfType<AttackAction>().Count(), actions.OfType<BlockAction>().Count()), out string noun);
 
         return GetAdjective(actions) + " " + noun;
