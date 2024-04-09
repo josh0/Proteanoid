@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(CardDescriptionCreator))]
 [RequireComponent(typeof(Button))]
-public class CardRewardButton : MonoBehaviour, IPointerDownHandler
+public class CardRewardButton : MonoBehaviour
 {
     private CardDescriptionCreator cardDescriptionCreator;
     private Button button;
@@ -22,11 +22,13 @@ public class CardRewardButton : MonoBehaviour, IPointerDownHandler
     {
         cardDescriptionCreator = GetComponent<CardDescriptionCreator>();
         button = GetComponent<Button>();
+        button.onClick.AddListener(OnClick);
     }
-    public void OnPointerDown(PointerEventData eventData)
+
+    public void SetHeldCard(Card card)
     {
-        if (button.interactable)
-            OnClick();
+        heldCard = card;
+        cardDescriptionCreator.SetDescription(heldCard);
     }
 
     private void OnClick()

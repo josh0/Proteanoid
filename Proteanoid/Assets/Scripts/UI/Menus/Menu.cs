@@ -12,13 +12,16 @@ public abstract class Menu<T> : Singleton<T> where T : Menu<T>
     {
         canvasGroup = GetComponent<CanvasGroup>();
         animator = GetComponent<Animator>();
+        CloseMenu();
     }
     public virtual void OpenMenu() {
         canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
         animator.SetBool("isMenuOpen", true);
     }
     public virtual void CloseMenu() {
         canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
         animator.SetBool("isMenuOpen", false);
     }
 }
