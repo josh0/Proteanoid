@@ -8610,7 +8610,6 @@ MonoBehaviour:
   - {fileID: 306434433}
   - {fileID: 741143058}
   testCards:
-  - {fileID: 11400000, guid: 85a3176d74cfb6f4ea680759faaf60b0, type: 2}
   - {fileID: 11400000, guid: a52231aa2cf31b74786dbc3d919596d6, type: 2}
   - {fileID: 11400000, guid: be1f9cbac0a9ed842acecc19cea657f4, type: 2}
   - {fileID: 11400000, guid: cdc07624880f307429215c78a362dec5, type: 2}

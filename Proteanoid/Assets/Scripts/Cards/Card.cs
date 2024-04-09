@@ -13,7 +13,7 @@ public class Card : ScriptableObject
     public int manaCost;
 
     private Unit attackTarget;
-    private CardButton cardButton;
+    private HandCardButton cardButton;
 
     public enum Keywords
     {
@@ -87,7 +87,7 @@ public class Card : ScriptableObject
         return false;
     }
 
-    public void SetCardButton(CardButton button)
+    public void SetCardButton(HandCardButton button)
     {
         cardButton = button;
     }

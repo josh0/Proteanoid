@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CardManager : Singleton<CardManager>
 {
-    [SerializeField] private List<CardButton> handButtons;
+    [SerializeField] private List<HandCardButton> handButtons;
     [SerializeField] private List<Transform> handButtonTargets;
 
     [SerializeField] private List<Card> testCards;
@@ -20,7 +20,7 @@ public class CardManager : Singleton<CardManager>
 
     [SerializeField] private CanvasGroup handCanvasGroup;
 
-    public CardButton heldCardButton { get; private set; }
+    public HandCardButton heldCardButton { get; private set; }
     private void Start()
     {
         foreach (Card c in testCards)
@@ -39,7 +39,7 @@ public class CardManager : Singleton<CardManager>
     public void ResetCards()
     {
         hand.Clear();
-        foreach (CardButton button in handButtons)
+        foreach (HandCardButton button in handButtons)
             button.SetHeldCard(null);
 
         drawPile.Clear();
@@ -99,7 +99,7 @@ public class CardManager : Singleton<CardManager>
 
     public void UpdateCardInteractability()
     {
-        foreach(CardButton button in handButtons)
+        foreach(HandCardButton button in handButtons)
         {
             if (button.heldCard != null && button.heldCard.manaCost > Player.mana)
                 button.SetInteractable(false);
@@ -152,7 +152,7 @@ public class CardManager : Singleton<CardManager>
     
     private void SetNullCardsInactive()
     {
-        foreach (CardButton button in handButtons)
+        foreach (HandCardButton button in handButtons)
             if (button.heldCard == null)
             {
                 button.behaviour.SetTargetTransformActive(false);
@@ -179,7 +179,7 @@ public class CardManager : Singleton<CardManager>
     private bool SetAvailableHandButtonAs(Card card)
     {
         int i = 0;
-        foreach (CardButton button in handButtons)
+        foreach (HandCardButton button in handButtons)
         {
             if (button.heldCard == null)
             {
@@ -218,7 +218,7 @@ public class CardManager : Singleton<CardManager>
 
     private void RemoveCardFromHand(Card card)
     {
-        foreach (CardButton button in handButtons)
+        foreach (HandCardButton button in handButtons)
             if (button.heldCard == card)
             {
                 button.SetHeldCard(null);
@@ -236,7 +236,7 @@ public class CardManager : Singleton<CardManager>
         ShuffleList(drawPile);
     }
 
-    public void SetHeldCardButton(CardButton b)
+    public void SetHeldCardButton(HandCardButton b)
     {
         heldCardButton = b;
     }

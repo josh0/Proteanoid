@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(CardButton))]
+[RequireComponent(typeof(HandCardButton))]
 public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private int targetSiblingIndex;
@@ -14,13 +14,13 @@ public class CardButtonBehaviour : MonoBehaviour, IPointerEnterHandler, IPointer
     [SerializeField] private float moveSpeed;
     [SerializeField] private float downwardOffsetWhenInactive;
 
-    private CardButton baseCardButtonClass;
+    private HandCardButton baseCardButtonClass;
 
     private void Awake()
     {
         targetSiblingIndex = transform.GetSiblingIndex();
         moveOffset = Vector3.down * downwardOffsetWhenInactive;
-        baseCardButtonClass = GetComponent<CardButton>();
+        baseCardButtonClass = GetComponent<HandCardButton>();
     }
     public Vector3 targetPos;
     private void Update()

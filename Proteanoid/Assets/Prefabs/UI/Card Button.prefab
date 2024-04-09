@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 1073920759509345441}
   - component: {fileID: 2874645922395561051}
   - component: {fileID: -2297018416010364486}
+  - component: {fileID: 2595469001468316584}
   m_Layer: 5
   m_Name: Card Button
   m_TagString: Untagged
@@ -460,17 +461,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heldCard: {fileID: 0}
-  nameText: {fileID: 5939389292107838009}
-  costText: {fileID: 5939389290998188297}
-  actionDescriptions:
-  - {fileID: 4173013854023988727}
-  - {fileID: 7674491849392440891}
-  - {fileID: 4894319898651875927}
-  - {fileID: 1512259656894757835}
-  retainIcon: {fileID: 4621517219127026938}
-  innateIcon: {fileID: 4692976833937527829}
-  exhaustIcon: {fileID: 5697424557774597855}
-  fleetingIcon: {fileID: 3293388279005550472}
 --- !u!114 &1073920759509345441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +535,29 @@ MonoBehaviour:
   moveSpeed: 20
   downwardOffsetWhenInactive: 0.5
   targetPos: {x: 0, y: 0, z: 0}
+--- !u!114 &2595469001468316584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5939389291247467290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c9072fc8bf2bde4bb434706ddf8e43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 5939389292107838009}
+  costText: {fileID: 5939389290998188297}
+  actionDescriptions:
+  - {fileID: 4173013854023988727}
+  - {fileID: 7674491849392440891}
+  - {fileID: 4894319898651875927}
+  - {fileID: 1512259656894757835}
+  retainIcon: {fileID: 4621517219127026938}
+  innateIcon: {fileID: 4692976833937527829}
+  exhaustIcon: {fileID: 5697424557774597855}
+  fleetingIcon: {fileID: 3293388279005550472}
 --- !u!1 &5939389292107838011
 GameObject:
   m_ObjectHideFlags: 0

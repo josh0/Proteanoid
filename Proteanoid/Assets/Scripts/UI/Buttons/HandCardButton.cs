@@ -5,20 +5,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CardButtonBehaviour))]
+[RequireComponent(typeof(CardDescriptionCreator))]
 [RequireComponent(typeof(Button))]
-public class CardButton : MonoBehaviour, IPointerDownHandler
+public class HandCardButton : MonoBehaviour, IPointerDownHandler
 {
     public Card heldCard;
     public CardButtonBehaviour behaviour { get; private set; }
 
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI costText;
-
-    [SerializeField] private List<ActionDescription> actionDescriptions;
-    [SerializeField] private Image retainIcon;
-    [SerializeField] private Image innateIcon;
-    [SerializeField] private Image exhaustIcon;
-    [SerializeField] private Image fleetingIcon;
+    public CardDescriptionCreator descriptionCreator { get; private set; }
 
     private Button button;
 
@@ -26,6 +20,7 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
     {
         behaviour = GetComponent<CardButtonBehaviour>();
         button = GetComponent<Button>();
+        descriptionCreator = GetComponent<CardDescriptionCreator>();
     }
 
     public void SetTargetTransform(Transform t)
@@ -54,34 +49,7 @@ public class CardButton : MonoBehaviour, IPointerDownHandler
         }
         gameObject.SetActive(true);
         card.SetCardButton(this);
-        UpdateCardText();
-    }
-
-    public void UpdateCardText()
-    {
-        nameText.text = CardNameGenerator.GetName(heldCard.actions);
-        UpdateDescription();
-        costText.text = heldCard.manaCost.ToString();
-    }
-    private void UpdateDescription()
-    {
-        for (int descIndex = 0; descIndex < actionDescriptions.Count; descIndex++)
-        {
-            if (heldCard.actions.Count >= descIndex + 1)
-                actionDescriptions[descIndex].SetDescription(heldCard.actions[descIndex]);
-            else
-                actionDescriptions[descIndex].gameObject.SetActive(false);
-        }
-
-        UpdateKeywordIcons();
-    }
-
-    private void UpdateKeywordIcons()
-    {
-        retainIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.retain));
-        innateIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.innate));
-        exhaustIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.exhaust));
-        fleetingIcon.gameObject.SetActive(heldCard.keywords.Contains(Card.Keywords.fleeting));
+        descriptionCreator.SetDescription(card);
     }
 
     public void SetInteractable(bool b)
