@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public abstract class Menu<T> : Singleton<T> where T : Menu<T>
 {
     protected CanvasGroup canvasGroup;
     protected Animator animator;
+    public bool isMenuOpen;
     protected virtual void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -15,13 +17,17 @@ public abstract class Menu<T> : Singleton<T> where T : Menu<T>
         CloseMenu();
     }
     public virtual void OpenMenu() {
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-        animator.SetBool("isMenuOpen", true);
+        SetMenuOpen(true);
     }
     public virtual void CloseMenu() {
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-        animator.SetBool("isMenuOpen", false);
+        SetMenuOpen(false);
+    }
+
+    private void SetMenuOpen(bool b)
+    {
+        canvasGroup.interactable = b;
+        canvasGroup.blocksRaycasts = b;
+        animator.SetBool("isMenuOpen", b);
+        isMenuOpen = b;
     }
 }

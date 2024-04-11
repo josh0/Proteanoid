@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardRewardMenu : Menu<CardRewardMenu>
 {
     [SerializeField] private List<CardRewardButton> rewardButtons;
-    public List<Card> pendingRewards;
+    public bool isWaitingForRewardChoice = false;
 
     /// <summary>
     /// For each reward button, pick a random card from a given list, then display that card to be selected. <br />
@@ -21,7 +21,9 @@ public class CardRewardMenu : Menu<CardRewardMenu>
             {
                 button.gameObject.SetActive(true);
                 int index = Random.Range(0, possibleRewards.Count);
-                button.SetHeldCard(possibleRewards[index]);
+                Card newCard = Instantiate(possibleRewards[index]);
+                newCard.OnCreate();
+                button.SetHeldCard(newCard);
                 possibleRewards.RemoveAt(index);
             }
             else

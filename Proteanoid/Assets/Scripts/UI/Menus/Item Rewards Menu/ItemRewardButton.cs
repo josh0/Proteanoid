@@ -9,7 +9,7 @@ public class ItemRewardButton : MonoBehaviour
 {
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
-    private EnemyPart heldItem;
+    public EnemyPart heldItem { get; private set; }
     private Button button;
 
     private void Awake()

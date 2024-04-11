@@ -26,7 +26,6 @@ public class CardManager : Singleton<CardManager>
         foreach (Card c in testCards)
         {
             Card newCard = Instantiate(c);
-            Debug.Log(newCard);
             Player.instance.AddCardToDeck(newCard);
         }
         UpdateHandButtonTargets();
@@ -72,8 +71,6 @@ public class CardManager : Singleton<CardManager>
     {
         foreach (Card card in new List<Card>(drawPile))
         {
-            Debug.Log(card.keywords);
-
             if (card.keywords.Contains(Card.Keywords.innate))
                 DrawCard(card);
         }
