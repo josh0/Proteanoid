@@ -51,8 +51,16 @@ public class Enemy : Unit
 
     protected override void Die()
     {
+        if (possiblePartRewards.Count > 0)
+            ItemRewardsMenu.pendingRewards.Add(GetPartReward());
+
         FightManager.enemies.Remove(this);
         if (FightManager.enemies.Count == 0)
             Player.instance.EndTurn();
+    }
+
+    private EnemyPart GetPartReward()
+    {
+        return Instantiate(possiblePartRewards[Random.Range(0, possiblePartRewards.Count)]);
     }
 }

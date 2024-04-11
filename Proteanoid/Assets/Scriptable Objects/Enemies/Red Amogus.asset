@@ -29,3 +29,6 @@ MonoBehaviour:
     actionPower: 4
     effect: {fileID: 0}
     effectStacks: 0
+  possiblePartRewards:
+  - {fileID: 11400000, guid: 02b3150d0301fad478f8fb2cbb69921c, type: 2}
+  - {fileID: 11400000, guid: 02b3150d0301fad478f8fb2cbb69921c, type: 2}

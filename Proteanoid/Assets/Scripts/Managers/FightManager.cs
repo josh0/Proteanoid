@@ -33,6 +33,8 @@ public class FightManager : Singleton<FightManager>
         yield return TurnCycleRoutine();
 
         fightUIAnimator.SetBool("isMenuOpen", false);
+
+        yield return ItemRewardsMenu.Instance.GetRewardsRoutine();
         StartCoroutine(CameraMovement.Instance.MoveToPos(CameraMovement.Instance.mapPos.position, 1));
     }
 

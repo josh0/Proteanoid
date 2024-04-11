@@ -5,6 +5,7 @@ using UnityEngine;
 public class CardRewardMenu : Menu<CardRewardMenu>
 {
     [SerializeField] private List<CardRewardButton> rewardButtons;
+    public List<Card> pendingRewards;
 
     /// <summary>
     /// For each reward button, pick a random card from a given list, then display that card to be selected. <br />
