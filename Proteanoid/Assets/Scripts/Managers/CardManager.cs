@@ -26,6 +26,7 @@ public class CardManager : Singleton<CardManager>
         foreach (Card c in testCards)
         {
             Card newCard = Instantiate(c);
+            newCard.OnCreate();
             Player.instance.AddCardToDeck(newCard);
         }
         UpdateHandButtonTargets();
