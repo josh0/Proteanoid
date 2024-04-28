@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
@@ -31,6 +32,7 @@ public class MapEventButton : MonoBehaviour
         if (mapEvent != null)
             StartCoroutine(EventRoutine());
         MapManager.Instance.currentNode = this;
+        SceneManager.LoadScene(mapEvent.scene.name);
     }
 
     private IEnumerator EventRoutine()
