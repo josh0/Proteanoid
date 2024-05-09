@@ -47,7 +47,9 @@ public class Player : Unit
 
     public void AddCardToDeck(Card card)
     {
-        deck.Add(card);
+        Card newCard = Instantiate(card);
+        newCard.OnCreate();
+        deck.Add(newCard);
     }
 
     public void AddMana(int amount)
