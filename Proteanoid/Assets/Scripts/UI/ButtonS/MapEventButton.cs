@@ -32,14 +32,15 @@ public class MapEventButton : MonoBehaviour
         if (mapEvent != null)
             StartCoroutine(EventRoutine());
         MapManager.Instance.currentNode = this;
-        MapMenu.Instance.CloseMenu();
     }
 
     private IEnumerator EventRoutine()
     {
+        MapMenu.Instance.CloseMenu();
         MapManager.Instance.SetButtonsInteractable(false);
         yield return mapEvent.EventRoutine();
         MapManager.Instance.SetButtonsInteractable(true);
+        MapMenu.Instance.OpenMenu();
     }
 
     public void SetButtonInteractable(bool i)
