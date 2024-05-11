@@ -5,29 +5,22 @@ using UnityEngine;
 
 public class FightManager : Singleton<FightManager>
 {
-    public static List<Enemy> enemies = new();
+    public static Enemy enemy;
     [SerializeField] private Transform fightCameraPos;
-    [SerializeField] private List<UnitLoader> enemyLoaders;
+    [SerializeField] private UnitLoader enemyLoader;
 
     [SerializeField] private Animator fightUIAnimator;
 
-    [SerializeField] private List<Enemy> testEnemies;
-
     public static event Action OnRoundStart;
     public static event Action OnFightStart;
-    public IEnumerator FightRoutine(List<Enemy> enemiesInFight) {
+    public IEnumerator FightRoutine(Enemy newEnemy) {
         fightUIAnimator.SetBool("isMenuOpen", true);
 
         CardManager.Instance.ResetCards();
         CardManager.Instance.DrawInnateCards();
 
-        for(int i=0; i<enemyLoaders.Count; i++)
-        {
-            if (enemiesInFight.Count >= i + 1)
-                enemyLoaders[i].LoadNewUnit(enemiesInFight[i]);
-            else
-                enemyLoaders[i].gameObject.SetActive(false);
-        }
+        enemyLoader.LoadNewUnit(newEnemy);
+
         yield return CameraMovement.Instance.MoveToPos(fightCameraPos.position, 1);
         OnFightStart?.Invoke();
         yield return TurnCycleRoutine();
@@ -43,34 +36,24 @@ public class FightManager : Singleton<FightManager>
     /// </summary>
     private IEnumerator TurnCycleRoutine()
     {
-        while(enemies.Count > 0)
+        while (enemy.hp > 0)
         {
             OnRoundStart?.Invoke();
 
-            foreach (Enemy enemy in enemies)
-                enemy.UpdateIntent();
+            enemy.UpdateIntent();
 
             //Player turn
             Player.instance.OnStartTurn();
             yield return Player.instance.TurnRoutine();
 
-            //Enemy turns
-            foreach (Enemy enemy in new List<Enemy>(enemies))
-            {
-                yield return new WaitForSeconds(0.4f);
-                enemy.OnStartTurn();
-                yield return new WaitForSeconds(0.1f);
-
-                if (enemies.Contains(enemy)) //Check if the enemy died in case status effects killed them
-                {
-                    yield return enemy.TurnRoutine();
-                    Debug.Log("Waiting for " + enemy.name + "'s turn.");
-                }
-            }
+            //Enemy turn
+            enemy.OnStartTurn();
+            yield return new WaitForSeconds(0.1f);
+            yield return enemy.TurnRoutine();
+            yield return new WaitForSeconds(0.3f);
 
             //End round
-            foreach(Enemy enemy in enemies) 
-                enemy.OnRoundEnd();
+            enemy.OnRoundEnd();
             Player.instance.OnRoundEnd();
 
             yield return new WaitForSeconds(0.5f);

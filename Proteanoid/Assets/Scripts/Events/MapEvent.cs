@@ -8,5 +8,4 @@ public abstract class MapEvent : ScriptableObject
 {
     public Sprite eventIcon;
     public abstract IEnumerator EventRoutine();
-    public SceneAsset scene;
 }

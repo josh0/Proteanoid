@@ -14,6 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventIcon: {fileID: 21300000, guid: 643babf4b62a0ef4a94ed82a2a7ab071, type: 3}
   scene: {fileID: 102900000, guid: fec2ec5797025ba4fa420ac08a7931dd, type: 3}
-  enemiesInFight:
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
+  enemyToFight: {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}

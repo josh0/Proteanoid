@@ -45,7 +45,7 @@ public abstract class UnitAction : ScriptableObject
     /// What the unit will do when this action is called.
     /// </summary>
     /// <param name="targets">The target(s) who this action will affect.</param>
-    public abstract IEnumerator OnAct(Unit actor, List<Unit> targets);
+    public abstract IEnumerator OnAct(Unit actor, Unit targets);
 
     protected void ApplyEffectToTarget(Unit target)
     {

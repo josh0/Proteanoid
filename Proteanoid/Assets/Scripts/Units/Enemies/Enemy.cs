@@ -22,20 +22,18 @@ public class Enemy : Unit
     }
     /// <param name="type">The targetType of the action</param>
     /// <returns></returns>
-    protected List<Unit> GetTargetsFromActionTargetType(UnitAction.TargetType type)
+    protected Unit GetTargetsFromActionTargetType(UnitAction.TargetType type)
     {
         switch(type)
         {
-            case UnitAction.TargetType.randomEnemy: 
             case UnitAction.TargetType.enemy: 
-            case UnitAction.TargetType.allEnemies:
-                return new List<Unit> { Player.instance };
+                return Player.instance;
 
             case UnitAction.TargetType.self:
-                return new List<Unit> { this };
+                return this;
             default:
                 Debug.LogWarning("Unknown Target Type: " + type);
-                return new List<Unit> { };
+                return null;
         }
     }
 
@@ -54,9 +52,7 @@ public class Enemy : Unit
         if (possiblePartRewards.Count > 0)
             ItemRewardsMenu.pendingRewards.Add(GetPartReward());
 
-        FightManager.enemies.Remove(this);
-        if (FightManager.enemies.Count == 0)
-            Player.instance.EndTurn();
+        Player.instance.EndTurn();
     }
 
     private EnemyPart GetPartReward()

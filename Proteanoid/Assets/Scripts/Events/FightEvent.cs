@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Map Events/Fight")]
 public class FightEvent : MapEvent
 {
-    [SerializeField] private List<Enemy> enemiesInFight;
+    [SerializeField] private Enemy enemyToFight;
     public override IEnumerator EventRoutine()
     {
-        yield return FightManager.Instance.FightRoutine(enemiesInFight);
+        yield return FightManager.Instance.FightRoutine(enemyToFight);
     }
 }

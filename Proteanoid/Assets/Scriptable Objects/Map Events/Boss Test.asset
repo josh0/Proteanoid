@@ -13,9 +13,5 @@ MonoBehaviour:
   m_Name: Boss Test
   m_EditorClassIdentifier: 
   eventIcon: {fileID: 21300000, guid: 3ebd8d2d762d14145ad4948a3490ff1c, type: 3}
-  enemiesInFight:
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
-  - {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}
+  scene: {fileID: 0}
+  enemyToFight: {fileID: 11400000, guid: 58a3a0f30f7940b448862ce257964be2, type: 2}

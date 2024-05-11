@@ -92,25 +92,19 @@ public class Card : ScriptableObject
         cardButton = button;
     }
 
-    private List<Unit> GetTargetsFromActionTargetType(UnitAction.TargetType type)
+    private Unit GetTargetsFromActionTargetType(UnitAction.TargetType type)
     {
         switch (type)
         {
             case UnitAction.TargetType.enemy:
-                return new List<Unit> { attackTarget };
-
-            case UnitAction.TargetType.randomEnemy:
-                return new List<Unit> { FightManager.enemies[Random.Range(0, FightManager.enemies.Count)] };
-
-            case UnitAction.TargetType.allEnemies:
-                return FightManager.enemies.OfType<Unit>().ToList<Unit>();
+                return attackTarget;
 
             case UnitAction.TargetType.self:
-                return new List<Unit> { Player.instance };
+                return Player.instance;
 
             default:
                 Debug.LogWarning("Unknown Target Type: " + type);
-                return new List<Unit> { };
+                return null;
         }
     }
 }

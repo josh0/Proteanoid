@@ -5,14 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Actions/Attack")]
 public class AttackAction : UnitAction
 {
-    public override IEnumerator OnAct(Unit actor, List<Unit> targets)
+    public override IEnumerator OnAct(Unit actor, Unit target)
     {
-        foreach (Unit target in targets)
-            if (target != null)
-            {
-                target.TakeDamage(power + damageModifier, true);
-                ApplyEffectToTarget(target);
-            }
-        yield return null;
+        target.TakeDamage(power + damageModifier, true);
+        ApplyEffectToTarget(target);
+        yield return new WaitForSeconds(0.15f);
     }
 }

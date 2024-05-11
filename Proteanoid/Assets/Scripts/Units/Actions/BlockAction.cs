@@ -5,13 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Actions/Block")]
 public class BlockAction : UnitAction
 {
-    public override IEnumerator OnAct(Unit actor, List<Unit> targets)
+    public override IEnumerator OnAct(Unit actor, Unit target)
     {
-        foreach (Unit target in targets)
-        {
-            target.AddBlock(power);
-            yield return new WaitForSeconds(0.1f);
-        }
-        yield return null;
+        target.AddBlock(power);
+        yield return new WaitForSeconds(0.1f);
     }
 }

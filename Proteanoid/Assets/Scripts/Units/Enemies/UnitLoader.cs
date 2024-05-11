@@ -34,7 +34,6 @@ public class UnitLoader : MonoBehaviour
         if (this is not PlayerLoader)
         {
             loadedUnit = Instantiate(unit);
-            FightManager.enemies.Add((Enemy) loadedUnit);
         }
 
         vfx.baseUnitClass = loadedUnit;
