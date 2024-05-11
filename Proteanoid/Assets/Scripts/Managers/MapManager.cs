@@ -15,6 +15,7 @@ public class MapManager : Singleton<MapManager>
     private void Start()
     {
         StartCoroutine(GenerateMap());
+        MapMenu.Instance.OpenMenu();
     }
     public IEnumerator GenerateMap()
     {

@@ -32,7 +32,7 @@ public class MapEventButton : MonoBehaviour
         if (mapEvent != null)
             StartCoroutine(EventRoutine());
         MapManager.Instance.currentNode = this;
-        SceneManager.LoadScene(mapEvent.scene.name);
+        MapMenu.Instance.CloseMenu();
     }
 
     private IEnumerator EventRoutine()
