@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ItemRewardsMenu : Menu<ItemRewardsMenu>
 {
-    [HideInInspector] public static List<EnemyPart> pendingRewards = new();
+    [HideInInspector] public static List<Item> pendingRewards = new();
     [SerializeField] private Button skipButton;
     [SerializeField] private List<ItemRewardButton> rewardButtons;
 

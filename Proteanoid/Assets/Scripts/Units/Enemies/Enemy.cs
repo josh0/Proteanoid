@@ -13,7 +13,7 @@ public class Enemy : Unit
     /// <summary>The action this enemy will take at the start of its turn.</summary>
     public UnitAction intent { get; protected set; }
 
-    public List<EnemyPart> possiblePartRewards;
+    public List<Item> possiblePartRewards;
 
     public override IEnumerator TurnRoutine()
     {
@@ -55,7 +55,7 @@ public class Enemy : Unit
         Player.instance.EndTurn();
     }
 
-    private EnemyPart GetPartReward()
+    private Item GetPartReward()
     {
         return Instantiate(possiblePartRewards[Random.Range(0, possiblePartRewards.Count)]);
     }

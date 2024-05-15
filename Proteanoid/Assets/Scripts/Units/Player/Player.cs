@@ -15,7 +15,7 @@ public class Player : Unit
     public List<Card> deck = new();
     private bool isTakingTurn;
 
-    public static List<EnemyPart> inventory = new();
+    public static List<Item> inventory = new();
 
     public static Player instance;
     public override IEnumerator TurnRoutine()

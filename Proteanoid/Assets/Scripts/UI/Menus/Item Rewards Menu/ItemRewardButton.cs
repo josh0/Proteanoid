@@ -9,7 +9,7 @@ public class ItemRewardButton : MonoBehaviour
 {
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
-    public EnemyPart heldItem { get; private set; }
+    public Item heldItem { get; private set; }
     private Button button;
 
     private void Awake()
@@ -18,7 +18,7 @@ public class ItemRewardButton : MonoBehaviour
         button.onClick.AddListener(OnClick);
     }
 
-    public void SetHeldItem(EnemyPart item)
+    public void SetHeldItem(Item item)
     {
         gameObject.SetActive(true);
         icon.sprite = item.icon;

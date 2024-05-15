@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy Part")]
-public class EnemyPart : ScriptableObject
+public class EnemyPart : MonoBehaviour
 {
-    public enum PartTypes
+    public List<StatusEffect> effects = new List<StatusEffect>();
+
+    public void TakeDamage(int amount)
     {
-        claw,
-        fang,
-        carapace
+        FightManager.enemy.TakeDamage(amount, true);
     }
-    public string partName;
-    public List<Card> possibleCardRewards = new();
-    public Sprite icon;
-    public int value;
 }
