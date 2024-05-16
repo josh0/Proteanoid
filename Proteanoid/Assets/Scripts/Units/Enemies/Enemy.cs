@@ -20,8 +20,9 @@ public class Enemy : Unit
         if (hp > 0)
             yield return intent.OnAct(this, GetTargetsFromActionTargetType(intent.targetType)); 
     }
+
     /// <param name="type">The targetType of the action</param>
-    /// <returns></returns>
+    /// <returns>The unit the given action should target</returns>
     protected Unit GetTargetsFromActionTargetType(UnitAction.TargetType type)
     {
         switch(type)
@@ -47,6 +48,9 @@ public class Enemy : Unit
         loader.UpdateIntentIcon(intent);
     }
 
+    /// <summary>
+    /// Adds rewards to the Item Rewards pool and ends combat.
+    /// </summary>
     protected override void Die()
     {
         if (possiblePartRewards.Count > 0)

@@ -51,10 +51,5 @@ public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Tooltip.Instance.ClearTooltip(transform);
     }
 
-    private void Update()
-    {
-        //This is checked manually instead of through events in case of clicking and dragging.
-        if (baseUnitClass is Enemy enemy && isMouseOverUnit && Input.GetMouseButtonUp(0))
-            TargetSelector.Instance.SelectTarget(enemy);
-    }
+    
 }
