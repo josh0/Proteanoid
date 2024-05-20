@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Button))]
-public abstract class EnemyPart : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public abstract class EnemyPart : MonoBehaviour, ITargetable, IPointerEnterHandler, IPointerExitHandler
 {
     public List<StatusEffect> effects = new List<StatusEffect>();
     public int hp { get; private set; }
@@ -23,23 +23,26 @@ public abstract class EnemyPart : MonoBehaviour, IPointerEnterHandler, IPointerE
         button = GetComponent<Button>();
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual int TakeDamage(int amount, bool procsOnHitEffects)
     {
         hp -= amount;
+
         if (hp <= 0)
             BreakPart();
+
+        return parentEnemy.TakeDamage(amount, procsOnHitEffects);
     }
 
     public virtual void BreakPart()
     {
-
+        button.interactable = false;
     }
 
     private void Update()
     {
         //This is checked manually instead of through events in case of clicking and dragging.
         if (button.interactable && isMouseOverPart && Input.GetMouseButtonUp(0))
-            TargetSelector.Instance.SelectTarget(parentEnemy);
+            TargetSelector.Instance.SelectTarget(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -51,4 +54,22 @@ public abstract class EnemyPart : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         isMouseOverPart = false;
     }
+
+    #region Targetable Interface Implementation
+
+    public void AddBlock(int amount)
+    {
+        parentEnemy.AddBlock(amount);
+    }
+
+    public void AddEffect(StatusEffect effect, int stacks)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void RemoveEffect<T>() where T : StatusEffect
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }

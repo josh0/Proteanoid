@@ -9,9 +9,9 @@ public class TargetSelector : Singleton<TargetSelector>
     [SerializeField] private Animator selectPromptAnimator;
     [SerializeField] private Transform heldCardPos;
     [SerializeField] private LineRenderer targetLineRenderer;
-    public Enemy selectedTarget { get; private set; }
+    public EnemyPart selectedTarget { get; private set; }
 
-    public void SelectTarget(Enemy target)
+    public void SelectTarget(EnemyPart target)
     {
         selectedTarget = target;
     }

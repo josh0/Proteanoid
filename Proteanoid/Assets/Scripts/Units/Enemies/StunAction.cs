@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StunAction : UnitAction
 {
-    public override IEnumerator OnAct(Unit actor, Unit target)
+    public override IEnumerator OnAct(Unit actor, ITargetable target)
     {
         yield return new WaitForSeconds(0.2f);
     }

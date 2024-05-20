@@ -12,7 +12,7 @@ public class Card : ScriptableObject
     public List<UnitAction> actions { get; private set; } = new();
     public int manaCost;
 
-    private Unit attackTarget;
+    private EnemyPart attackTarget;
     private HandCardButton cardButton;
 
     public enum Keywords
@@ -71,7 +71,7 @@ public class Card : ScriptableObject
         cardButton.behaviour.SetTargetTransformActive(true);
     }
 
-    public void SetAttackTarget(Enemy target)
+    public void SetAttackTarget(EnemyPart target)
     {
         attackTarget = target;
     }
@@ -92,7 +92,7 @@ public class Card : ScriptableObject
         cardButton = button;
     }
 
-    private Unit GetTargetsFromActionTargetType(UnitAction.TargetType type)
+    private ITargetable GetTargetsFromActionTargetType(UnitAction.TargetType type)
     {
         switch (type)
         {

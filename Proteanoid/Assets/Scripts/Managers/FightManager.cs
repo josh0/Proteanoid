@@ -7,9 +7,9 @@ public class FightManager : Singleton<FightManager>
 {
     public static Enemy enemy;
     [SerializeField] private Transform fightCameraPos;
-    [SerializeField] private UnitLoader enemyLoader;
 
     [SerializeField] private Animator fightUIAnimator;
+    [SerializeField] private Vector3 enemyPos;
 
     public static event Action OnRoundStart;
     public static event Action OnFightStart;
@@ -19,7 +19,7 @@ public class FightManager : Singleton<FightManager>
         CardManager.Instance.ResetCards();
         CardManager.Instance.DrawInnateCards();
 
-        enemyLoader.LoadNewUnit(newEnemy);
+        enemy = Instantiate(newEnemy, enemyPos, Quaternion.identity);
 
         yield return CameraMovement.Instance.MoveToPos(fightCameraPos.position, 1);
         OnFightStart?.Invoke();
@@ -29,6 +29,7 @@ public class FightManager : Singleton<FightManager>
 
         yield return ItemRewardsMenu.Instance.GetRewardsRoutine();
         StartCoroutine(CameraMovement.Instance.MoveToPos(CameraMovement.Instance.mapPos.position, 1));
+        Destroy(enemy.gameObject);
     }
 
     /// <summary>

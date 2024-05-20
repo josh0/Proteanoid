@@ -5,7 +5,6 @@ using UnityEngine;
 /// <summary>
 /// Any unit that fights the player.
 /// </summary>
-[CreateAssetMenu(menuName = "Enemy")]
 public class Enemy : Unit
 {
     [SerializeField] private List<ActionConstructor> actionConstructors;
@@ -14,6 +13,7 @@ public class Enemy : Unit
     public UnitAction intent { get; protected set; }
 
     public List<Item> possiblePartRewards;
+    private UnitVfx vfx;
 
     public override IEnumerator TurnRoutine()
     {
@@ -45,7 +45,13 @@ public class Enemy : Unit
     public void UpdateIntent()
     {
         intent = actionConstructors[Random.Range(0, actionConstructors.Count)].CreateAction();
-        loader.UpdateIntentIcon(intent);
+        vfx.UpdateIntentIcon(intent);
+    }
+
+    /// <summary>Sets this unit's intent to the stun action</summary>
+    public void StunEnemy()
+    {
+        intent = ScriptableObject.CreateInstance<StunAction>();
     }
 
     /// <summary>

@@ -5,11 +5,12 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Any unit in the fight, including the player and enemies.
 /// </summary>
-public abstract class Unit : ScriptableObject
+public abstract class Unit : MonoBehaviour, ITargetable
 {
     public string unitName;
     [HideInInspector] public int hp;
@@ -17,14 +18,23 @@ public abstract class Unit : ScriptableObject
     public int strength;
     public Sprite sprite;
 
-    [HideInInspector] public UnitLoader loader;
-
     /// <summary>The list of status effects that should be displayed in the tooltip box.</summary>
     [HideInInspector] public List<StatusEffect> statusEffects = new();
 
     public int block;
 
-    //Both of these next methods make a copy of the statusEffect list to avoid the collection modified error.
+    [field: SerializeField] public UnitVfx vfx { get; private set; }
+
+    private void Awake()
+    {
+        vfx.baseUnitClass = this;
+    }
+
+    private void Start()
+    {
+        //hp stuff
+        hp = maxHp;
+    }
 
     public virtual void OnStartTurn()
     {
@@ -74,7 +84,7 @@ public abstract class Unit : ScriptableObject
             }
         }
 
-        loader.hpSlider.SetHPVal(hp);
+        vfx.hpSlider.SetHPVal(hp);
 
         if (hp <= 0)
             Die();
@@ -87,7 +97,7 @@ public abstract class Unit : ScriptableObject
     public void AddBlock(int amount)
     {
         block = Mathf.Max(0, block + amount);
-        loader.hpSlider.SetBlockVal(block);
+        vfx.hpSlider.SetBlockVal(block);
     }
 
     /// <summary>
@@ -101,15 +111,15 @@ public abstract class Unit : ScriptableObject
             if (existingEffect.GetType() == effect.GetType())
             {
                 existingEffect.AddStacks(stacks);
-                loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
+                vfx.hpSlider.SetStatusEffectDescriptions(statusEffects);
                 return;
             }
         }
-        StatusEffect newEffect = ScriptableObject.Instantiate(effect);
+        StatusEffect newEffect = Instantiate(effect);
         newEffect.AddStacks(stacks);
         statusEffects.Add(newEffect);
         
-        loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
+        vfx.hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 
     /// <summary>Removes a given type of effect.</summary>
@@ -122,7 +132,7 @@ public abstract class Unit : ScriptableObject
     public void RemoveEffect(StatusEffect effect)
     {
         statusEffects.Remove(effect);
-        loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
+        vfx.hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 
     public void RemoveEffectStacks<T>(int stacks) where T : StatusEffect
@@ -133,6 +143,6 @@ public abstract class Unit : ScriptableObject
         effect.AddStacks(-stacks);
         if (effect.stacks <= 0)
             RemoveEffect(effect);
-        loader.hpSlider.SetStatusEffectDescriptions(statusEffects);
+        vfx.hpSlider.SetStatusEffectDescriptions(statusEffects);
     }
 }

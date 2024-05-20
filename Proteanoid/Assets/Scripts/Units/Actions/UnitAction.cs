@@ -44,10 +44,10 @@ public abstract class UnitAction : ScriptableObject
     /// <summary>
     /// What the unit will do when this action is called.
     /// </summary>
-    /// <param name="targets">The target(s) who this action will affect.</param>
-    public abstract IEnumerator OnAct(Unit actor, Unit targets);
+    /// <param name="target">The target(s) who this action will affect.</param>
+    public abstract IEnumerator OnAct(Unit actor, ITargetable target);
 
-    protected void ApplyEffectToTarget(Unit target)
+    protected void ApplyEffectToTarget(ITargetable target)
     {
         if (appliedEffect != null && appliedEffectStacks != 0)
         target.AddEffect(appliedEffect, appliedEffectStacks);
@@ -55,7 +55,7 @@ public abstract class UnitAction : ScriptableObject
 
     public string GetTooltip(Unit actor)
     {
-        String s = actionTooltip.Replace("[power]", GetPredictedPower(actor).ToString());
+        string s = actionTooltip.Replace("[power]", GetPredictedPower(actor).ToString());
 
         if (appliedEffect != null)
         {

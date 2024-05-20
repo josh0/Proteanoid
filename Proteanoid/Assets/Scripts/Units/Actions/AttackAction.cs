@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Actions/Attack")]
 public class AttackAction : UnitAction
 {
-    public override IEnumerator OnAct(Unit actor, Unit target)
+    public override IEnumerator OnAct(Unit actor, ITargetable target)
     {
         target.TakeDamage(power + damageModifier, true);
         ApplyEffectToTarget(target);

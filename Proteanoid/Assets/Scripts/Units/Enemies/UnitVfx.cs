@@ -11,18 +11,35 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 [RequireComponent(typeof(ShakeMovement))]
-public class EnemyVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UnitVfx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private bool isMouseOverUnit;
     public Unit baseUnitClass;
     [SerializeField] private ShakeMovement graphicShaker;
     private Image graphicRenderer;
 
+    /// <summary>The script controlling this unit's movement.</summary>
+    public UnitMovement movement { get; private set; }
+
+    [field: SerializeField] public HPSlider hpSlider { get; private set; }
+    [SerializeField] private ActionDescription intentDescription;
+
+    public void UpdateIntentIcon(UnitAction intent)
+    {
+        intentDescription.SetDescription(intent);
+    }
+
     private void Awake()
     {
         graphicRenderer = GetComponent<Image>();
     }
 
+    private void Start()
+    {
+        hpSlider.SetMaxHPVal(baseUnitClass.maxHp);
+        hpSlider.SetHPVal(baseUnitClass.hp);
+        hpSlider.SetBlockVal(baseUnitClass.block);
+    }
     public void TakeDamage()
     {
         StartCoroutine(graphicShaker.ShakeForDuration(0.2f));

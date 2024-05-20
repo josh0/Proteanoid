@@ -18,6 +18,15 @@ public class Player : Unit
     public static List<Item> inventory = new();
 
     public static Player instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else 
+            Debug.LogWarning("Two player scripts detected.");
+    }
+
     public override IEnumerator TurnRoutine()
     {
         FightUI.Instance.SetActive(true);
