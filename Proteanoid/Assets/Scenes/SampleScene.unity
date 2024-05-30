@@ -14765,7 +14765,7 @@ GameObject:
   - component: {fileID: 1517307802050082963}
   - component: {fileID: 449790576}
   m_Layer: 0
-  m_Name: Player Loader
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18319,10 +18319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd047b4540f8b904a96d871e8bd6d90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUnitClass: {fileID: 0}
+  baseUnitClass: {fileID: 449790576}
   graphicShaker: {fileID: 8173150892312115791}
-  <hpSlider>k__BackingField: {fileID: 0}
-  intentDescription: {fileID: 0}
+  <hpSlider>k__BackingField: {fileID: 6057199711275405162}
+  intentDescription: {fileID: 931413712336230934}
 --- !u!114 &8043038783259385977
 MonoBehaviour:
   m_ObjectHideFlags: 0

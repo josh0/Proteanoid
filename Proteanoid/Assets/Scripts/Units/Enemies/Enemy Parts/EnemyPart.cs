@@ -8,8 +8,19 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public abstract class EnemyPart : MonoBehaviour, ITargetable, IPointerEnterHandler, IPointerExitHandler
 {
-    public List<StatusEffect> effects = new List<StatusEffect>();
-    public int hp { get; private set; }
+    public enum EnemyPartAttributes
+    {
+        /// <summary>This part will intercept attacks against other parts.</summary>
+        blocking,
+        /// <summary>This part will damage the enemy directly instead of taking damage and breaking.</summary>
+        vital,
+        /// <summary>This part can be regenerated using the Regenerate action.</summary>
+        regenerative
+    }
+    public List<StatusEffect> effects = new();
+    public List<EnemyPartAttributes> attributes = new();
+    public List<ActionConstructor> addedActions;
+    [field: SerializeField] public int hp { get; private set; }
     public bool isPartBroken;
 
     public Enemy parentEnemy;
@@ -23,6 +34,17 @@ public abstract class EnemyPart : MonoBehaviour, ITargetable, IPointerEnterHandl
         button = GetComponent<Button>();
     }
 
+    public virtual int OnAttack(int amount)
+    {
+        return parentEnemy.OnAttackPart(this, amount, true);
+    }
+
+    /// <summary>
+    /// Directly damages the given part.
+    /// </summary>
+    /// <param name="amount">The amount of damage to deal.</param>
+    /// <param name="procsOnHitEffects">Whether or not this damage should proc on-hit effects (was it caused by an attack?)</param>
+    /// <returns></returns>
     public virtual int TakeDamage(int amount, bool procsOnHitEffects)
     {
         hp -= amount;
@@ -30,12 +52,14 @@ public abstract class EnemyPart : MonoBehaviour, ITargetable, IPointerEnterHandl
         if (hp <= 0)
             BreakPart();
 
-        return parentEnemy.TakeDamage(amount, procsOnHitEffects);
+        return amount;
     }
 
     public virtual void BreakPart()
     {
+        isPartBroken = true;
         button.interactable = false;
+        gameObject.SetActive(false);
     }
 
     private void Update()
@@ -64,12 +88,12 @@ public abstract class EnemyPart : MonoBehaviour, ITargetable, IPointerEnterHandl
 
     public void AddEffect(StatusEffect effect, int stacks)
     {
-        throw new System.NotImplementedException();
+        parentEnemy.AddEffect(effect, stacks);
     }
 
     public void RemoveEffect<T>() where T : StatusEffect
     {
-        throw new System.NotImplementedException();
+        parentEnemy.RemoveEffect<T>();
     }
     #endregion
 }

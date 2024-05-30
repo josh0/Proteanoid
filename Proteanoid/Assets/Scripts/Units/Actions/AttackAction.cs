@@ -7,7 +7,7 @@ public class AttackAction : UnitAction
 {
     public override IEnumerator OnAct(Unit actor, ITargetable target)
     {
-        target.TakeDamage(power + damageModifier, true);
+        target.OnAttack(power + damageModifier);
         ApplyEffectToTarget(target);
         yield return new WaitForSeconds(0.15f);
     }

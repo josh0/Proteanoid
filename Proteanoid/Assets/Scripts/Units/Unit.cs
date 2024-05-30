@@ -57,10 +57,9 @@ public abstract class Unit : MonoBehaviour, ITargetable
     /// <param name="amount">The base amount of damage the unit should take before calculations.</param>
     /// <param name="procsOnDamageEffects">Whether or not damage dealt this way should call the OnTakeDamage event.</param>
     /// <returns>The amount of unblocked damage dealt.</returns>
-    public int TakeDamage(int amount, bool procsOnDamageEffects)
+    /// 
+    public int OnAttack(int amount)
     {
-        int finalDamage = amount;
-
         if (block >= amount)
         {
             AddBlock(-amount);
@@ -71,7 +70,10 @@ public abstract class Unit : MonoBehaviour, ITargetable
             amount -= block;
             AddBlock(-block);
         }
-
+        return TakeDamage(amount, true);
+    }
+    public int TakeDamage(int amount, bool procsOnDamageEffects)
+    {
         if (amount > 0)
         {
             hp -= amount;
@@ -85,11 +87,12 @@ public abstract class Unit : MonoBehaviour, ITargetable
         }
 
         vfx.hpSlider.SetHPVal(hp);
+        AddBlock(0);
 
         if (hp <= 0)
             Die();
 
-        return finalDamage;
+        return amount;
     }
 
     protected abstract void Die();
